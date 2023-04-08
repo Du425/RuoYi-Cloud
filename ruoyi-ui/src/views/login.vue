@@ -38,6 +38,15 @@
         </div>
       </el-form-item>
       <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
+      <el-text v-model="loginForm.register" style="margin:0px 0px 25px 0px;">还没有账号？马上注册</el-text>
+      <el-button
+        :loading="loading"
+        size="small"
+        type="primary"
+        style="width:15%;"
+        @click.native.prevent="handleRegister">
+        <span v-if="!loading">注 册</span>
+      </el-button>
       <el-form-item style="width:100%;">
         <el-button
           :loading="loading"
@@ -49,6 +58,7 @@
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
+
         <div style="float: right;" v-if="register">
           <router-link class="link-type" :to="'/register'">立即注册</router-link>
         </div>
@@ -56,7 +66,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2023 ruoyi.vip All Rights Reserved.</span>
+      <span>Copyright © 2023 Hotel-PMS All Rights Reserved.</span>
     </div>
   </div>
 </template>
@@ -75,6 +85,7 @@ export default {
         username: "admin",
         password: "admin123",
         rememberMe: false,
+        register: false,
         code: "",
         uuid: ""
       },
@@ -150,6 +161,9 @@ export default {
           });
         }
       });
+    },
+    handleRegister() {
+      this.$router.push("/register");
     }
   }
 };

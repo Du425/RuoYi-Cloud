@@ -138,10 +138,10 @@ public class SysUserController extends BaseController
     public R<Boolean> register(@RequestBody SysUser sysUser)
     {
         String username = sysUser.getUserName();
-        if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser"))))
-        {
-            return R.fail("当前系统没有开启注册功能！");
-        }
+//        if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser"))))
+//        {
+//            return R.fail("当前系统没有开启注册功能！");
+//        }
         if (!userService.checkUserNameUnique(sysUser))
         {
             return R.fail("保存用户'" + username + "'失败，注册账号已存在");
