@@ -1,5 +1,84 @@
+
+<!--<template>-->
+<!--  <div class="hotel-page">-->
+<!--    <header>-->
+<!--      <navigation-bar />-->
+<!--    </header>-->
+<!--    <main>-->
+<!--      <hotel-search />-->
+<!--      <hotel-room-list :rooms="rooms" />-->
+<!--      <booking-form />-->
+<!--    </main>-->
+<!--    <footer>-->
+<!--      <copyright />-->
+<!--    </footer>-->
+<!--  </div>-->
+<!--</template>-->
+
+<!--<script>-->
+<!--import NavigationBar from "@/components/NavigationBar.vue";-->
+<!--import HotelSearch from "@/components/HotelSearch.vue";-->
+<!--import HotelRoomList from "@/components/HotelRoomList.vue";-->
+<!--import BookingForm from "@/components/BookingForm.vue";-->
+<!--import Copyright from "@/components/Copyright.vue";-->
+
+<!--export default {-->
+<!--  name: "HotelPage",-->
+<!--  components: {-->
+<!--    NavigationBar,-->
+<!--    HotelSearch,-->
+<!--    HotelRoomList,-->
+<!--    BookingForm,-->
+<!--    Copyright,-->
+<!--  },-->
+<!--  data() {-->
+<!--    return {-->
+<!--      rooms: [],-->
+<!--    };-->
+<!--  },-->
+<!--  created() {-->
+<!--    // fetch rooms data from API-->
+<!--    this.fetchRooms();-->
+<!--  },-->
+<!--  methods: {-->
+<!--    fetchRooms() {-->
+<!--      // make API request to fetch rooms data-->
+<!--      // and update rooms property with the response-->
+<!--      // this.rooms = response.data;-->
+<!--    },-->
+<!--  },-->
+<!--};-->
+<!--</script>-->
+
+<!--<style scoped>-->
+<!--.hotel-page {-->
+<!--  display: flex;-->
+<!--  flex-direction: column;-->
+<!--  min-height: 100vh;-->
+<!--}-->
+
+<!--main {-->
+<!--  flex: 1;-->
+<!--  display: flex;-->
+<!--  flex-direction: column;-->
+<!--}-->
+<!--</style>-->
+
+
+
+
+
+
+
+
+
+
+
 <template>
   <div class="app-container home">
+
+    <calendar></calendar>
+
     <el-row :gutter="20">
       <el-col :sm="24" :lg="24">
 
@@ -58,8 +137,12 @@
 </template>
 
 <script>
+import Calendar from "@/components/Calendar/calendar";
 export default {
   name: "Index",
+  components: {
+    'calendar': Calendar
+  },
   data() {
     return {
       // 版本号
@@ -70,6 +153,9 @@ export default {
     goTarget(href) {
       window.open(href, "_blank");
     },
+    getCalendar() {
+      this.$refs['hotelCalendar'].getCalenderList(date, mixDate, maxDate);
+    }
   },
 };
 </script>
