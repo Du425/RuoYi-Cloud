@@ -6,7 +6,7 @@
         <div class="head-container">
           <el-input
             v-model="deptName"
-            placeholder="请输入部门名称"
+            placeholder="请输入房间型号名称"
             clearable
             size="small"
             prefix-icon="el-icon-search"
@@ -30,10 +30,10 @@
       <!--用户数据-->
       <el-col :span="20" :xs="24">
         <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-          <el-form-item label="用户名称" prop="userName">
+          <el-form-item label="房间ID" prop="userName">
             <el-input
               v-model="queryParams.userName"
-              placeholder="请输入用户名称"
+              placeholder="请输入房间ID"
               clearable
               style="width: 240px"
               @keyup.enter.native="handleQuery"
@@ -51,7 +51,7 @@
           <el-form-item label="状态" prop="status">
             <el-select
               v-model="queryParams.status"
-              placeholder="用户状态"
+              placeholder="房间状态"
               clearable
               style="width: 240px"
             >
@@ -138,7 +138,8 @@
 
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns[0].visible" />
+          //todo
+          <el-table-column label="房间型号" align="center" key="userId" prop="userId" v-if="columns[0].visible" />
           <el-table-column label="用户名称" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
           <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
           <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
@@ -341,6 +342,8 @@
 </template>
 
 <script>
+
+import {addRoom} from "@/api/system/room";
 import { listUser, getUser, delUser, addUser, updateUser, resetUserPwd, changeUserStatus, deptTreeSelect } from "@/api/system/user";
 import { getToken } from "@/utils/auth";
 import Treeselect from "@riophae/vue-treeselect";
@@ -603,18 +606,38 @@ export default {
       const userId = row.userId;
       this.$router.push("/system/user-auth/role/" + userId);
     },
+    // /** 提交按钮 */
+    // submitForm: function() {
+    //   this.$refs["form"].validate(valid => {
+    //     if (valid) {
+    //       if (this.form.userId != undefined) {
+    //         updateUser(this.form).then(response => {
+    //           this.$modal.msgSuccess("修改成功");
+    //           this.open = false;
+    //           this.getList();
+    //         });
+    //       } else {
+    //         addUser(this.form).then(response => {
+    //           this.$modal.msgSuccess("新增成功");
+    //           this.open = false;
+    //           this.getList();
+    //         });
+    //       }
+    //     }
+    //   });
+    // },
     /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.userId != undefined) {
+          if (this.form.id != undefined) {
             updateUser(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addUser(this.form).then(response => {
+            addRoom(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();

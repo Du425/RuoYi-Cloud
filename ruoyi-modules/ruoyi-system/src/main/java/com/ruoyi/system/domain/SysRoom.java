@@ -43,7 +43,7 @@ public class SysRoom implements Serializable {
     private LocalDateTime createTime;
 
 
-    public String getId() {
+    public SysRoom getId() {
         return id;
     }
 
