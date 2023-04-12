@@ -42,13 +42,19 @@ public class SysOrder implements Serializable {
 
     private BigDecimal totalPrice;
 
-    private String roomTile;
+    private String roomType;
 
     private Integer roomNumber;
 
     private LocalDateTime creatTime;
 
     private LocalDateTime updateTime;
+
+    private String orderType;
+
+    private int roomTypeId;
+
+    private int orderDays;
 
 
     public Integer getId() {
@@ -131,14 +137,6 @@ public class SysOrder implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public String getRoomTile() {
-        return roomTile;
-    }
-
-    public void setRoomTile(String roomTile) {
-        this.roomTile = roomTile;
-    }
-
     public Integer getRoomNumber() {
         return roomNumber;
     }
@@ -163,23 +161,58 @@ public class SysOrder implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
+
+    public int getRoomTypeId() {
+        return roomTypeId;
+    }
+
+    public void setRoomTypeId(int roomTypeId) {
+        this.roomTypeId = roomTypeId;
+    }
+
+    public int getOrderDays() {
+        return orderDays;
+    }
+
+    public void setOrderDays(int orderDays) {
+        this.orderDays = orderDays;
+    }
+
     @Override
     public String toString() {
         return "SysOrder{" +
-        "id=" + id +
-        ", roomId=" + roomId +
-        ", userId=" + userId +
-        ", quantity=" + quantity +
-        ", status=" + status +
-        ", username=" + username +
-        ", phone=" + phone +
-        ", idCard=" + idCard +
-        ", price=" + price +
-        ", totalPrice=" + totalPrice +
-        ", roomTile=" + roomTile +
-        ", roomNumber=" + roomNumber +
-        ", creatTime=" + creatTime +
-        ", updateTime=" + updateTime +
-        "}";
+                "id=" + id +
+                ", roomId=" + roomId +
+                ", userId=" + userId +
+                ", quantity=" + quantity +
+                ", status='" + status + '\'' +
+                ", username='" + username + '\'' +
+                ", phone='" + phone + '\'' +
+                ", idCard='" + idCard + '\'' +
+                ", price=" + price +
+                ", totalPrice=" + totalPrice +
+                ", roomType='" + roomType + '\'' +
+                ", roomNumber=" + roomNumber +
+                ", creatTime=" + creatTime +
+                ", updateTime=" + updateTime +
+                ", orderType='" + orderType + '\'' +
+                ", roomTypeId=" + roomTypeId +
+                ", orderDays=" + orderDays +
+                '}';
     }
 }

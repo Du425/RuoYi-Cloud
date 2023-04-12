@@ -42,6 +42,25 @@ public class SysRoom implements Serializable {
 
     private LocalDateTime createTime;
 
+    private String roomType;
+
+    private LocalDateTime updateTime;
+
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public String getId() {
         return id;
@@ -118,15 +137,17 @@ public class SysRoom implements Serializable {
     @Override
     public String toString() {
         return "SysRoom{" +
-        "id=" + id +
-        ", price=" + price +
-        ", desc=" + desc +
-        ", code=" + code +
-        ", title=" + title +
-        ", number=" + number +
-        ", imgUrl=" + imgUrl +
-        ", roomStatus=" + roomStatus +
-        ", createTime=" + createTime +
-        "}";
+                "id='" + id + '\'' +
+                ", price=" + price +
+                ", desc='" + desc + '\'' +
+                ", code='" + code + '\'' +
+                ", title='" + title + '\'' +
+                ", number=" + number +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", roomStatus='" + roomStatus + '\'' +
+                ", createTime=" + createTime +
+                ", roomType='" + roomType + '\'' +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }
