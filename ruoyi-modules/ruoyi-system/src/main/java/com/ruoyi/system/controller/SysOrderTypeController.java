@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.system.domain.SysRecord;
-import com.ruoyi.system.service.ISysRecordService;
+import com.ruoyi.system.domain.SysOrderType;
+import com.ruoyi.system.service.ISysOrderTypeService;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
@@ -29,77 +29,77 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
  * @date 2023-04-12
  */
 @RestController
-@RequestMapping("/record")
-public class SysRecordController extends BaseController
+@RequestMapping("/type")
+public class SysOrderTypeController extends BaseController
 {
     @Autowired
-    private ISysRecordService sysRecordService;
+    private ISysOrderTypeService sysOrderTypeService;
 
     /**
      * 查询【请填写功能名称】列表
      */
-    @RequiresPermissions("system:record:list")
+    @RequiresPermissions("system:type:list")
     @GetMapping("/list")
-    public TableDataInfo list(SysRecord sysRecord)
+    public TableDataInfo list(SysOrderType sysOrderType)
     {
         startPage();
-        List<SysRecord> list = sysRecordService.selectSysRecordList(sysRecord);
+        List<SysOrderType> list = sysOrderTypeService.selectSysOrderTypeList(sysOrderType);
         return getDataTable(list);
     }
 
     /**
      * 导出【请填写功能名称】列表
      */
-    @RequiresPermissions("system:record:export")
+    @RequiresPermissions("system:type:export")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, SysRecord sysRecord)
+    public void export(HttpServletResponse response, SysOrderType sysOrderType)
     {
-        List<SysRecord> list = sysRecordService.selectSysRecordList(sysRecord);
-        ExcelUtil<SysRecord> util = new ExcelUtil<SysRecord>(SysRecord.class);
+        List<SysOrderType> list = sysOrderTypeService.selectSysOrderTypeList(sysOrderType);
+        ExcelUtil<SysOrderType> util = new ExcelUtil<SysOrderType>(SysOrderType.class);
         util.exportExcel(response, list, "【请填写功能名称】数据");
     }
 
     /**
      * 获取【请填写功能名称】详细信息
      */
-    @RequiresPermissions("system:record:query")
+    @RequiresPermissions("system:type:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
-        return success(sysRecordService.selectSysRecordById(id));
+        return success(sysOrderTypeService.selectSysOrderTypeById(id));
     }
 
     /**
      * 新增【请填写功能名称】
      */
-    @RequiresPermissions("system:record:add")
+    @RequiresPermissions("system:type:add")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody SysRecord sysRecord)
+    public AjaxResult add(@RequestBody SysOrderType sysOrderType)
     {
-        return toAjax(sysRecordService.insertSysRecord(sysRecord));
+        return toAjax(sysOrderTypeService.insertSysOrderType(sysOrderType));
     }
 
     /**
      * 修改【请填写功能名称】
      */
-    @RequiresPermissions("system:record:edit")
+    @RequiresPermissions("system:type:edit")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody SysRecord sysRecord)
+    public AjaxResult edit(@RequestBody SysOrderType sysOrderType)
     {
-        return toAjax(sysRecordService.updateSysRecord(sysRecord));
+        return toAjax(sysOrderTypeService.updateSysOrderType(sysOrderType));
     }
 
     /**
      * 删除【请填写功能名称】
      */
-    @RequiresPermissions("system:record:remove")
+    @RequiresPermissions("system:type:remove")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
-        return toAjax(sysRecordService.deleteSysRecordByIds(ids));
+        return toAjax(sysOrderTypeService.deleteSysOrderTypeByIds(ids));
     }
 }

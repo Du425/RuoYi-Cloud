@@ -1,44 +1,44 @@
 import request from '@/utils/request'
 
 // 查询【请填写功能名称】列表
-export function listRoom(query) {
+export function listType(query) {
   return request({
-    url: '/system/room/list',
+    url: '/system/type/list',
     method: 'get',
     params: query
   })
 }
 
 // 查询【请填写功能名称】详细
-export function getRoom(id) {
+export function getType(id) {
   return request({
-    url: '/system/room/' + id,
+    url: '/system/type/' + id,
     method: 'get'
   })
 }
 
 // 新增【请填写功能名称】
-export function addRoom(data) {
+export function addType(data) {
   return request({
-    url: '/system/room',
+    url: '/system/type',
     method: 'post',
     data: data
   })
 }
 
 // 修改【请填写功能名称】
-export function updateRoom(data) {
+export function updateType(data) {
   return request({
-    url: '/system/room',
+    url: '/system/type',
     method: 'put',
     data: data
   })
 }
 
 // 删除【请填写功能名称】
-export function delRoom(id) {
+export function delType(id) {
   return request({
-    url: '/system/room/' + id,
+    url: '/system/type/' + id,
     method: 'delete'
   })
 }

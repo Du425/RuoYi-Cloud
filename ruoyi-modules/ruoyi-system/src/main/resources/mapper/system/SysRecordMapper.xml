@@ -1,5 +1,71 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.SysRecordMapper">
+    
+    <resultMap type="SysRecord" id="SysRecordResult">
+        <result property="id"    column="id"    />
+        <result property="desc"    column="desc"    />
+        <result property="userId"    column="user_id"    />
+        <result property="type"    column="type"    />
+        <result property="recordDate"    column="record_date"    />
+    </resultMap>
 
+    <sql id="selectSysRecordVo">
+        select id, desc, user_id, type, record_date from sys_record
+    </sql>
+
+    <select id="selectSysRecordList" parameterType="SysRecord" resultMap="SysRecordResult">
+        <include refid="selectSysRecordVo"/>
+        <where>  
+            <if test="desc != null  and desc != ''"> and desc = #{desc}</if>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="recordDate != null "> and record_date = #{recordDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysRecordById" parameterType="Long" resultMap="SysRecordResult">
+        <include refid="selectSysRecordVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysRecord" parameterType="SysRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="desc != null">desc,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="type != null">type,</if>
+            <if test="recordDate != null">record_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="desc != null">#{desc},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="recordDate != null">#{recordDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysRecord" parameterType="SysRecord">
+        update sys_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="desc != null">desc = #{desc},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="recordDate != null">record_date = #{recordDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysRecordById" parameterType="Long">
+        delete from sys_record where id = #{id}
+    </delete>
+
+    <delete id="deleteSysRecordByIds" parameterType="String">
+        delete from sys_record where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

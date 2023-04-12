@@ -1,11 +1,12 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+import com.ruoyi.common.core.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.SysRecordMapper;
-import com.ruoyi.system.domain.SysRecord;
-import com.ruoyi.system.service.ISysRecordService;
+import com.ruoyi.system.mapper.SysOrderMapper;
+import com.ruoyi.system.domain.SysOrder;
+import com.ruoyi.system.service.ISysOrderService;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -14,10 +15,10 @@ import com.ruoyi.system.service.ISysRecordService;
  * @date 2023-04-12
  */
 @Service
-public class SysRecordServiceImpl implements ISysRecordService 
+public class SysOrderServiceImpl implements ISysOrderService 
 {
     @Autowired
-    private SysRecordMapper sysRecordMapper;
+    private SysOrderMapper sysOrderMapper;
 
     /**
      * 查询【请填写功能名称】
@@ -26,45 +27,46 @@ public class SysRecordServiceImpl implements ISysRecordService
      * @return 【请填写功能名称】
      */
     @Override
-    public SysRecord selectSysRecordById(Long id)
+    public SysOrder selectSysOrderById(Long id)
     {
-        return sysRecordMapper.selectSysRecordById(id);
+        return sysOrderMapper.selectSysOrderById(id);
     }
 
     /**
      * 查询【请填写功能名称】列表
      * 
-     * @param sysRecord 【请填写功能名称】
+     * @param sysOrder 【请填写功能名称】
      * @return 【请填写功能名称】
      */
     @Override
-    public List<SysRecord> selectSysRecordList(SysRecord sysRecord)
+    public List<SysOrder> selectSysOrderList(SysOrder sysOrder)
     {
-        return sysRecordMapper.selectSysRecordList(sysRecord);
+        return sysOrderMapper.selectSysOrderList(sysOrder);
     }
 
     /**
      * 新增【请填写功能名称】
      * 
-     * @param sysRecord 【请填写功能名称】
+     * @param sysOrder 【请填写功能名称】
      * @return 结果
      */
     @Override
-    public int insertSysRecord(SysRecord sysRecord)
+    public int insertSysOrder(SysOrder sysOrder)
     {
-        return sysRecordMapper.insertSysRecord(sysRecord);
+        return sysOrderMapper.insertSysOrder(sysOrder);
     }
 
     /**
      * 修改【请填写功能名称】
      * 
-     * @param sysRecord 【请填写功能名称】
+     * @param sysOrder 【请填写功能名称】
      * @return 结果
      */
     @Override
-    public int updateSysRecord(SysRecord sysRecord)
+    public int updateSysOrder(SysOrder sysOrder)
     {
-        return sysRecordMapper.updateSysRecord(sysRecord);
+        sysOrder.setUpdateTime(DateUtils.getNowDate());
+        return sysOrderMapper.updateSysOrder(sysOrder);
     }
 
     /**
@@ -74,9 +76,9 @@ public class SysRecordServiceImpl implements ISysRecordService
      * @return 结果
      */
     @Override
-    public int deleteSysRecordByIds(Long[] ids)
+    public int deleteSysOrderByIds(Long[] ids)
     {
-        return sysRecordMapper.deleteSysRecordByIds(ids);
+        return sysOrderMapper.deleteSysOrderByIds(ids);
     }
 
     /**
@@ -86,8 +88,8 @@ public class SysRecordServiceImpl implements ISysRecordService
      * @return 结果
      */
     @Override
-    public int deleteSysRecordById(Long id)
+    public int deleteSysOrderById(Long id)
     {
-        return sysRecordMapper.deleteSysRecordById(id);
+        return sysOrderMapper.deleteSysOrderById(id);
     }
 }

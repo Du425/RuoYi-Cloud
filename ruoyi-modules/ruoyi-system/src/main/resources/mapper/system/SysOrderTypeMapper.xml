@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysOrderTypeMapper">
+    
+    <resultMap type="SysOrderType" id="SysOrderTypeResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSysOrderTypeVo">
+        select id, type, remark, create_time, update_time from sys_order_type
+    </sql>
+
+    <select id="selectSysOrderTypeList" parameterType="SysOrderType" resultMap="SysOrderTypeResult">
+        <include refid="selectSysOrderTypeVo"/>
+        <where>  
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysOrderTypeById" parameterType="Long" resultMap="SysOrderTypeResult">
+        <include refid="selectSysOrderTypeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysOrderType" parameterType="SysOrderType" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_order_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysOrderType" parameterType="SysOrderType">
+        update sys_order_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysOrderTypeById" parameterType="Long">
+        delete from sys_order_type where id = #{id}
+    </delete>
+
+    <delete id="deleteSysOrderTypeByIds" parameterType="String">
+        delete from sys_order_type where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,11 +1,12 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+import com.ruoyi.common.core.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.SysRecordMapper;
-import com.ruoyi.system.domain.SysRecord;
-import com.ruoyi.system.service.ISysRecordService;
+import com.ruoyi.system.mapper.SysRoomMapper;
+import com.ruoyi.system.domain.SysRoom;
+import com.ruoyi.system.service.ISysRoomService;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -14,10 +15,10 @@ import com.ruoyi.system.service.ISysRecordService;
  * @date 2023-04-12
  */
 @Service
-public class SysRecordServiceImpl implements ISysRecordService 
+public class SysRoomServiceImpl implements ISysRoomService 
 {
     @Autowired
-    private SysRecordMapper sysRecordMapper;
+    private SysRoomMapper sysRoomMapper;
 
     /**
      * 查询【请填写功能名称】
@@ -26,45 +27,47 @@ public class SysRecordServiceImpl implements ISysRecordService
      * @return 【请填写功能名称】
      */
     @Override
-    public SysRecord selectSysRecordById(Long id)
+    public SysRoom selectSysRoomById(String id)
     {
-        return sysRecordMapper.selectSysRecordById(id);
+        return sysRoomMapper.selectSysRoomById(id);
     }
 
     /**
      * 查询【请填写功能名称】列表
      * 
-     * @param sysRecord 【请填写功能名称】
+     * @param sysRoom 【请填写功能名称】
      * @return 【请填写功能名称】
      */
     @Override
-    public List<SysRecord> selectSysRecordList(SysRecord sysRecord)
+    public List<SysRoom> selectSysRoomList(SysRoom sysRoom)
     {
-        return sysRecordMapper.selectSysRecordList(sysRecord);
+        return sysRoomMapper.selectSysRoomList(sysRoom);
     }
 
     /**
      * 新增【请填写功能名称】
      * 
-     * @param sysRecord 【请填写功能名称】
+     * @param sysRoom 【请填写功能名称】
      * @return 结果
      */
     @Override
-    public int insertSysRecord(SysRecord sysRecord)
+    public int insertSysRoom(SysRoom sysRoom)
     {
-        return sysRecordMapper.insertSysRecord(sysRecord);
+        sysRoom.setCreateTime(DateUtils.getNowDate());
+        return sysRoomMapper.insertSysRoom(sysRoom);
     }
 
     /**
      * 修改【请填写功能名称】
      * 
-     * @param sysRecord 【请填写功能名称】
+     * @param sysRoom 【请填写功能名称】
      * @return 结果
      */
     @Override
-    public int updateSysRecord(SysRecord sysRecord)
+    public int updateSysRoom(SysRoom sysRoom)
     {
-        return sysRecordMapper.updateSysRecord(sysRecord);
+        sysRoom.setUpdateTime(DateUtils.getNowDate());
+        return sysRoomMapper.updateSysRoom(sysRoom);
     }
 
     /**
@@ -74,9 +77,9 @@ public class SysRecordServiceImpl implements ISysRecordService
      * @return 结果
      */
     @Override
-    public int deleteSysRecordByIds(Long[] ids)
+    public int deleteSysRoomByIds(String[] ids)
     {
-        return sysRecordMapper.deleteSysRecordByIds(ids);
+        return sysRoomMapper.deleteSysRoomByIds(ids);
     }
 
     /**
@@ -86,8 +89,8 @@ public class SysRecordServiceImpl implements ISysRecordService
      * @return 结果
      */
     @Override
-    public int deleteSysRecordById(Long id)
+    public int deleteSysRoomById(String id)
     {
-        return sysRecordMapper.deleteSysRecordById(id);
+        return sysRoomMapper.deleteSysRoomById(id);
     }
 }

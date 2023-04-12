@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysOrderMapper">
+    
+    <resultMap type="SysOrder" id="SysOrderResult">
+        <result property="id"    column="id"    />
+        <result property="roomId"    column="room_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="status"    column="status"    />
+        <result property="username"    column="username"    />
+        <result property="phone"    column="phone"    />
+        <result property="idCard"    column="id_card"    />
+        <result property="price"    column="price"    />
+        <result property="totalPrice"    column="total_price"    />
+        <result property="roomType"    column="room_type"    />
+        <result property="roomNumber"    column="room_number"    />
+        <result property="creatTime"    column="creat_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="orderType"    column="order_type"    />
+        <result property="roomTypeId"    column="room_type_id"    />
+        <result property="orderDays"    column="order_days"    />
+    </resultMap>
+
+    <sql id="selectSysOrderVo">
+        select id, room_id, user_id, quantity, status, username, phone, id_card, price, total_price, room_type, room_number, creat_time, update_time, order_type, room_type_id, order_days from sys_order
+    </sql>
+
+    <select id="selectSysOrderList" parameterType="SysOrder" resultMap="SysOrderResult">
+        <include refid="selectSysOrderVo"/>
+        <where>  
+            <if test="roomId != null "> and room_id = #{roomId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="quantity != null "> and quantity = #{quantity}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="totalPrice != null "> and total_price = #{totalPrice}</if>
+            <if test="roomType != null  and roomType != ''"> and room_type = #{roomType}</if>
+            <if test="roomNumber != null "> and room_number = #{roomNumber}</if>
+            <if test="creatTime != null "> and creat_time = #{creatTime}</if>
+            <if test="orderType != null  and orderType != ''"> and order_type = #{orderType}</if>
+            <if test="roomTypeId != null "> and room_type_id = #{roomTypeId}</if>
+            <if test="orderDays != null "> and order_days = #{orderDays}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysOrderById" parameterType="Long" resultMap="SysOrderResult">
+        <include refid="selectSysOrderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysOrder" parameterType="SysOrder">
+        insert into sys_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="roomId != null">room_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="status != null">status,</if>
+            <if test="username != null">username,</if>
+            <if test="phone != null">phone,</if>
+            <if test="idCard != null">id_card,</if>
+            <if test="price != null">price,</if>
+            <if test="totalPrice != null">total_price,</if>
+            <if test="roomType != null">room_type,</if>
+            <if test="roomNumber != null">room_number,</if>
+            <if test="creatTime != null">creat_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="orderType != null">order_type,</if>
+            <if test="roomTypeId != null">room_type_id,</if>
+            <if test="orderDays != null">order_days,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="roomId != null">#{roomId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="status != null">#{status},</if>
+            <if test="username != null">#{username},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="idCard != null">#{idCard},</if>
+            <if test="price != null">#{price},</if>
+            <if test="totalPrice != null">#{totalPrice},</if>
+            <if test="roomType != null">#{roomType},</if>
+            <if test="roomNumber != null">#{roomNumber},</if>
+            <if test="creatTime != null">#{creatTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="orderType != null">#{orderType},</if>
+            <if test="roomTypeId != null">#{roomTypeId},</if>
+            <if test="orderDays != null">#{orderDays},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysOrder" parameterType="SysOrder">
+        update sys_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="roomId != null">room_id = #{roomId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="totalPrice != null">total_price = #{totalPrice},</if>
+            <if test="roomType != null">room_type = #{roomType},</if>
+            <if test="roomNumber != null">room_number = #{roomNumber},</if>
+            <if test="creatTime != null">creat_time = #{creatTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="orderType != null">order_type = #{orderType},</if>
+            <if test="roomTypeId != null">room_type_id = #{roomTypeId},</if>
+            <if test="orderDays != null">order_days = #{orderDays},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysOrderById" parameterType="Long">
+        delete from sys_order where id = #{id}
+    </delete>
+
+    <delete id="deleteSysOrderByIds" parameterType="String">
+        delete from sys_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

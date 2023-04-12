@@ -1,7 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
-import com.ruoyi.system.domain.SysRecord;
+import com.ruoyi.system.domain.SysOrderType;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -9,7 +9,7 @@ import com.ruoyi.system.domain.SysRecord;
  * @author ruoyi
  * @date 2023-04-12
  */
-public interface SysRecordMapper 
+public interface SysOrderTypeMapper 
 {
     /**
      * 查询【请填写功能名称】
@@ -17,31 +17,31 @@ public interface SysRecordMapper
      * @param id 【请填写功能名称】主键
      * @return 【请填写功能名称】
      */
-    public SysRecord selectSysRecordById(Long id);
+    public SysOrderType selectSysOrderTypeById(Long id);
 
     /**
      * 查询【请填写功能名称】列表
      * 
-     * @param sysRecord 【请填写功能名称】
+     * @param sysOrderType 【请填写功能名称】
      * @return 【请填写功能名称】集合
      */
-    public List<SysRecord> selectSysRecordList(SysRecord sysRecord);
+    public List<SysOrderType> selectSysOrderTypeList(SysOrderType sysOrderType);
 
     /**
      * 新增【请填写功能名称】
      * 
-     * @param sysRecord 【请填写功能名称】
+     * @param sysOrderType 【请填写功能名称】
      * @return 结果
      */
-    public int insertSysRecord(SysRecord sysRecord);
+    public int insertSysOrderType(SysOrderType sysOrderType);
 
     /**
      * 修改【请填写功能名称】
      * 
-     * @param sysRecord 【请填写功能名称】
+     * @param sysOrderType 【请填写功能名称】
      * @return 结果
      */
-    public int updateSysRecord(SysRecord sysRecord);
+    public int updateSysOrderType(SysOrderType sysOrderType);
 
     /**
      * 删除【请填写功能名称】
@@ -49,7 +49,7 @@ public interface SysRecordMapper
      * @param id 【请填写功能名称】主键
      * @return 结果
      */
-    public int deleteSysRecordById(Long id);
+    public int deleteSysOrderTypeById(Long id);
 
     /**
      * 批量删除【请填写功能名称】
@@ -57,5 +57,5 @@ public interface SysRecordMapper
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteSysRecordByIds(Long[] ids);
+    public int deleteSysOrderTypeByIds(Long[] ids);
 }

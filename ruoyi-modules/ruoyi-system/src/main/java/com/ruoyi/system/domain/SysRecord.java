@@ -1,89 +1,95 @@
 package com.ruoyi.system.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import com.ruoyi.common.core.annotation.Excel;
+import com.ruoyi.common.core.web.domain.BaseEntity;
 
 /**
- * <p>
+ * 【请填写功能名称】对象 sys_record
  * 
- * </p>
- *
- * @author Du425
- * @since 2023-04-09
+ * @author ruoyi
+ * @date 2023-04-12
  */
-@TableName("sys_record")
-@ApiModel(value = "SysRecord对象", description = "")
-public class SysRecord implements Serializable {
-
+public class SysRecord extends BaseEntity
+{
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    /** $column.columnComment */
+    private Long id;
 
+    /** $column.columnComment */
+    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private String desc;
 
-    @ApiModelProperty("用户")
+    /** 用户 */
+    @Excel(name = "用户")
     private String userId;
 
-    @ApiModelProperty("订单操作类型")
+    /** 订单操作类型 */
+    @Excel(name = "订单操作类型")
     private String type;
 
-    private LocalDateTime recordDate;
+    /** $column.columnComment */
+    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    private Date recordDate;
 
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
+    public void setId(Long id) 
+    {
         this.id = id;
     }
 
-    public String getDesc() {
-        return desc;
+    public Long getId() 
+    {
+        return id;
     }
-
-    public void setDesc(String desc) {
+    public void setDesc(String desc) 
+    {
         this.desc = desc;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getDesc() 
+    {
+        return desc;
     }
-
-    public void setUserId(String userId) {
+    public void setUserId(String userId) 
+    {
         this.userId = userId;
     }
 
-    public String getType() {
-        return type;
+    public String getUserId() 
+    {
+        return userId;
     }
-
-    public void setType(String type) {
+    public void setType(String type) 
+    {
         this.type = type;
     }
 
-    public LocalDateTime getRecordDate() {
-        return recordDate;
+    public String getType() 
+    {
+        return type;
+    }
+    public void setRecordDate(Date recordDate) 
+    {
+        this.recordDate = recordDate;
     }
 
-    public void setRecordDate(LocalDateTime recordDate) {
-        this.recordDate = recordDate;
+    public Date getRecordDate() 
+    {
+        return recordDate;
     }
 
     @Override
     public String toString() {
-        return "SysRecord{" +
-        "id=" + id +
-        ", desc=" + desc +
-        ", userId=" + userId +
-        ", type=" + type +
-        ", recordDate=" + recordDate +
-        "}";
+        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
+            .append("id", getId())
+            .append("desc", getDesc())
+            .append("userId", getUserId())
+            .append("type", getType())
+            .append("recordDate", getRecordDate())
+            .toString();
     }
 }

@@ -1,6 +1,54 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="${comment}" prop="roomId">
+        <el-input
+          v-model="queryParams.roomId"
+          placeholder="请输入${comment}"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="${comment}" prop="userId">
+        <el-input
+          v-model="queryParams.userId"
+          placeholder="请输入${comment}"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="${comment}" prop="quantity">
+        <el-input
+          v-model="queryParams.quantity"
+          placeholder="请输入${comment}"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="${comment}" prop="username">
+        <el-input
+          v-model="queryParams.username"
+          placeholder="请输入${comment}"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="${comment}" prop="phone">
+        <el-input
+          v-model="queryParams.phone"
+          placeholder="请输入${comment}"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="${comment}" prop="idCard">
+        <el-input
+          v-model="queryParams.idCard"
+          placeholder="请输入${comment}"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="${comment}" prop="price">
         <el-input
           v-model="queryParams.price"
@@ -9,34 +57,42 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="${comment}" prop="desc">
+      <el-form-item label="${comment}" prop="totalPrice">
         <el-input
-          v-model="queryParams.desc"
+          v-model="queryParams.totalPrice"
           placeholder="请输入${comment}"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="房型" prop="code">
+      <el-form-item label="${comment}" prop="roomNumber">
         <el-input
-          v-model="queryParams.code"
-          placeholder="请输入房型"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="${comment}" prop="title">
-        <el-input
-          v-model="queryParams.title"
+          v-model="queryParams.roomNumber"
           placeholder="请输入${comment}"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="房间数量" prop="number">
+      <el-form-item label="${comment}" prop="creatTime">
+        <el-date-picker clearable
+          v-model="queryParams.creatTime"
+          type="date"
+          value-format="yyyy-MM-dd"
+          placeholder="请选择${comment}">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="${comment}" prop="roomTypeId">
         <el-input
-          v-model="queryParams.number"
-          placeholder="请输入房间数量"
+          v-model="queryParams.roomTypeId"
+          placeholder="请输入${comment}"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="${comment}" prop="orderDays">
+        <el-input
+          v-model="queryParams.orderDays"
+          placeholder="请输入${comment}"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -55,7 +111,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:room:add']"
+          v-hasPermi="['system:order:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -66,7 +122,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:room:edit']"
+          v-hasPermi="['system:order:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -77,7 +133,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:room:remove']"
+          v-hasPermi="['system:order:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -87,23 +143,34 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:room:export']"
+          v-hasPermi="['system:order:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="roomList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="orderList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="${comment}" align="center" prop="id" />
+      <el-table-column label="${comment}" align="center" prop="roomId" />
+      <el-table-column label="${comment}" align="center" prop="userId" />
+      <el-table-column label="${comment}" align="center" prop="quantity" />
+      <el-table-column label="订单状态" align="center" prop="status" />
+      <el-table-column label="${comment}" align="center" prop="username" />
+      <el-table-column label="${comment}" align="center" prop="phone" />
+      <el-table-column label="${comment}" align="center" prop="idCard" />
       <el-table-column label="${comment}" align="center" prop="price" />
-      <el-table-column label="${comment}" align="center" prop="desc" />
-      <el-table-column label="房型" align="center" prop="code" />
-      <el-table-column label="${comment}" align="center" prop="title" />
-      <el-table-column label="房间数量" align="center" prop="number" />
-      <el-table-column label="${comment}" align="center" prop="imgUrl" />
-      <el-table-column label="在售、停售" align="center" prop="roomStatus" />
+      <el-table-column label="${comment}" align="center" prop="totalPrice" />
       <el-table-column label="${comment}" align="center" prop="roomType" />
+      <el-table-column label="${comment}" align="center" prop="roomNumber" />
+      <el-table-column label="${comment}" align="center" prop="creatTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.creatTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="${comment}" align="center" prop="orderType" />
+      <el-table-column label="${comment}" align="center" prop="roomTypeId" />
+      <el-table-column label="${comment}" align="center" prop="orderDays" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -111,14 +178,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:room:edit']"
+            v-hasPermi="['system:order:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:room:remove']"
+            v-hasPermi="['system:order:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -135,20 +202,46 @@
     <!-- 添加或修改【请填写功能名称】对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="${comment}" prop="roomId">
+          <el-input v-model="form.roomId" placeholder="请输入${comment}" />
+        </el-form-item>
+        <el-form-item label="${comment}" prop="userId">
+          <el-input v-model="form.userId" placeholder="请输入${comment}" />
+        </el-form-item>
+        <el-form-item label="${comment}" prop="quantity">
+          <el-input v-model="form.quantity" placeholder="请输入${comment}" />
+        </el-form-item>
+        <el-form-item label="${comment}" prop="username">
+          <el-input v-model="form.username" placeholder="请输入${comment}" />
+        </el-form-item>
+        <el-form-item label="${comment}" prop="phone">
+          <el-input v-model="form.phone" placeholder="请输入${comment}" />
+        </el-form-item>
+        <el-form-item label="${comment}" prop="idCard">
+          <el-input v-model="form.idCard" placeholder="请输入${comment}" />
+        </el-form-item>
         <el-form-item label="${comment}" prop="price">
           <el-input v-model="form.price" placeholder="请输入${comment}" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="desc">
-          <el-input v-model="form.desc" placeholder="请输入${comment}" />
+        <el-form-item label="${comment}" prop="totalPrice">
+          <el-input v-model="form.totalPrice" placeholder="请输入${comment}" />
         </el-form-item>
-        <el-form-item label="房型" prop="code">
-          <el-input v-model="form.code" placeholder="请输入房型" />
+        <el-form-item label="${comment}" prop="roomNumber">
+          <el-input v-model="form.roomNumber" placeholder="请输入${comment}" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="title">
-          <el-input v-model="form.title" placeholder="请输入${comment}" />
+        <el-form-item label="${comment}" prop="creatTime">
+          <el-date-picker clearable
+            v-model="form.creatTime"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择${comment}">
+          </el-date-picker>
         </el-form-item>
-        <el-form-item label="房间数量" prop="number">
-          <el-input v-model="form.number" placeholder="请输入房间数量" />
+        <el-form-item label="${comment}" prop="roomTypeId">
+          <el-input v-model="form.roomTypeId" placeholder="请输入${comment}" />
+        </el-form-item>
+        <el-form-item label="${comment}" prop="orderDays">
+          <el-input v-model="form.orderDays" placeholder="请输入${comment}" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -160,10 +253,10 @@
 </template>
 
 <script>
-import { listRoom, getRoom, delRoom, addRoom, updateRoom } from "@/api/system/room";
+import { listOrder, getOrder, delOrder, addOrder, updateOrder } from "@/api/system/order";
 
 export default {
-  name: "Room",
+  name: "Order",
   data() {
     return {
       // 遮罩层
@@ -179,7 +272,7 @@ export default {
       // 总条数
       total: 0,
       // 【请填写功能名称】表格数据
-      roomList: [],
+      orderList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -188,21 +281,26 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        roomId: null,
+        userId: null,
+        quantity: null,
+        status: null,
+        username: null,
+        phone: null,
+        idCard: null,
         price: null,
-        desc: null,
-        code: null,
-        title: null,
-        number: null,
-        roomStatus: null,
+        totalPrice: null,
         roomType: null,
+        roomNumber: null,
+        creatTime: null,
+        orderType: null,
+        roomTypeId: null,
+        orderDays: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        roomStatus: [
-          { required: true, message: "在售、停售不能为空", trigger: "change" }
-        ],
       }
     };
   },
@@ -213,8 +311,8 @@ export default {
     /** 查询【请填写功能名称】列表 */
     getList() {
       this.loading = true;
-      listRoom(this.queryParams).then(response => {
-        this.roomList = response.rows;
+      listOrder(this.queryParams).then(response => {
+        this.orderList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -228,16 +326,22 @@ export default {
     reset() {
       this.form = {
         id: null,
+        roomId: null,
+        userId: null,
+        quantity: null,
+        status: null,
+        username: null,
+        phone: null,
+        idCard: null,
         price: null,
-        desc: null,
-        code: null,
-        title: null,
-        number: null,
-        imgUrl: null,
-        roomStatus: null,
-        createTime: null,
+        totalPrice: null,
         roomType: null,
-        updateTime: null
+        roomNumber: null,
+        creatTime: null,
+        updateTime: null,
+        orderType: null,
+        roomTypeId: null,
+        orderDays: null
       };
       this.resetForm("form");
     },
@@ -267,7 +371,7 @@ export default {
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getRoom(id).then(response => {
+      getOrder(id).then(response => {
         this.form = response.data;
         this.open = true;
         this.title = "修改【请填写功能名称】";
@@ -278,13 +382,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateRoom(this.form).then(response => {
+            updateOrder(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addRoom(this.form).then(response => {
+            addOrder(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -297,7 +401,7 @@ export default {
     handleDelete(row) {
       const ids = row.id || this.ids;
       this.$modal.confirm('是否确认删除【请填写功能名称】编号为"' + ids + '"的数据项？').then(function() {
-        return delRoom(ids);
+        return delOrder(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -305,9 +409,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/room/export', {
+      this.download('system/order/export', {
         ...this.queryParams
-      }, `room_${new Date().getTime()}.xlsx`)
+      }, `order_${new Date().getTime()}.xlsx`)
     }
   }
 };

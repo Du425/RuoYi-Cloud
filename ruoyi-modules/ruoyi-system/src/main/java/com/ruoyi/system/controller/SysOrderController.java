@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.system.domain.SysRecord;
-import com.ruoyi.system.service.ISysRecordService;
+import com.ruoyi.system.domain.SysOrder;
+import com.ruoyi.system.service.ISysOrderService;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
@@ -29,77 +29,77 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
  * @date 2023-04-12
  */
 @RestController
-@RequestMapping("/record")
-public class SysRecordController extends BaseController
+@RequestMapping("/order")
+public class SysOrderController extends BaseController
 {
     @Autowired
-    private ISysRecordService sysRecordService;
+    private ISysOrderService sysOrderService;
 
     /**
      * 查询【请填写功能名称】列表
      */
-    @RequiresPermissions("system:record:list")
+    @RequiresPermissions("system:order:list")
     @GetMapping("/list")
-    public TableDataInfo list(SysRecord sysRecord)
+    public TableDataInfo list(SysOrder sysOrder)
     {
         startPage();
-        List<SysRecord> list = sysRecordService.selectSysRecordList(sysRecord);
+        List<SysOrder> list = sysOrderService.selectSysOrderList(sysOrder);
         return getDataTable(list);
     }
 
     /**
      * 导出【请填写功能名称】列表
      */
-    @RequiresPermissions("system:record:export")
+    @RequiresPermissions("system:order:export")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, SysRecord sysRecord)
+    public void export(HttpServletResponse response, SysOrder sysOrder)
     {
-        List<SysRecord> list = sysRecordService.selectSysRecordList(sysRecord);
-        ExcelUtil<SysRecord> util = new ExcelUtil<SysRecord>(SysRecord.class);
+        List<SysOrder> list = sysOrderService.selectSysOrderList(sysOrder);
+        ExcelUtil<SysOrder> util = new ExcelUtil<SysOrder>(SysOrder.class);
         util.exportExcel(response, list, "【请填写功能名称】数据");
     }
 
     /**
      * 获取【请填写功能名称】详细信息
      */
-    @RequiresPermissions("system:record:query")
+    @RequiresPermissions("system:order:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
-        return success(sysRecordService.selectSysRecordById(id));
+        return success(sysOrderService.selectSysOrderById(id));
     }
 
     /**
      * 新增【请填写功能名称】
      */
-    @RequiresPermissions("system:record:add")
+    @RequiresPermissions("system:order:add")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody SysRecord sysRecord)
+    public AjaxResult add(@RequestBody SysOrder sysOrder)
     {
-        return toAjax(sysRecordService.insertSysRecord(sysRecord));
+        return toAjax(sysOrderService.insertSysOrder(sysOrder));
     }
 
     /**
      * 修改【请填写功能名称】
      */
-    @RequiresPermissions("system:record:edit")
+    @RequiresPermissions("system:order:edit")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody SysRecord sysRecord)
+    public AjaxResult edit(@RequestBody SysOrder sysOrder)
     {
-        return toAjax(sysRecordService.updateSysRecord(sysRecord));
+        return toAjax(sysOrderService.updateSysOrder(sysOrder));
     }
 
     /**
      * 删除【请填写功能名称】
      */
-    @RequiresPermissions("system:record:remove")
+    @RequiresPermissions("system:order:remove")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
-        return toAjax(sysRecordService.deleteSysRecordByIds(ids));
+        return toAjax(sysOrderService.deleteSysOrderByIds(ids));
     }
 }
