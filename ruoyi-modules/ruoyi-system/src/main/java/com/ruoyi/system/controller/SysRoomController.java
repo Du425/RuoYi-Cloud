@@ -45,7 +45,8 @@ public class SysRoomController {
         if (StringUtils.isEmpty((CharSequence) room.getId())) {
             return AjaxResult.error("房间不存在");
         }
-        roomService.updateById(room.getId());
+        //todo revise
+        roomService.updateById(room);
         return AjaxResult.success();
     }
 
@@ -62,6 +63,21 @@ public class SysRoomController {
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus() {
         return AjaxResult.success();
+    }
+
+    @RequiresPermissions("system:room:findAll")
+    @Log(title = "房间管理", businessType = BusinessType.EXPORT)
+    @GetMapping
+    public AjaxResult getRoomsList() {
+        return AjaxResult.success(roomService.list());
+    }
+
+    @RequiresPermissions("system:room:findAll")
+    @Log(title = "房间管理", businessType = BusinessType.EXPORT)
+    @GetMapping("/findByType")
+    public AjaxResult getRoomsList(String type) {
+
+        return AjaxResult.success(roomService.list());
     }
 
 

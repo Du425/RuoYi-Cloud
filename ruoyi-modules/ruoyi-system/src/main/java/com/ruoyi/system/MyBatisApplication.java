@@ -37,13 +37,8 @@ public class MyBatisApplication {
                                 .outputDir("D://java-code/RuoYi-Cloud/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system"))
                 // 包配置
                 .packageConfig(builder ->
-                        builder.parent("com.ruoyi.system")
-                                .service("service")
-                                .serviceImpl("service.impl")
-                                .mapper("mapper")
-                                .controller("controller")
-                                .other("other")
-                                .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "D://java-code/RuoYi-Cloud/ruoyi-modules/ruoyi-system/src/main/java/resources/mapper/system")))
+                        builder
+                                .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "D://java-code/RuoYi-Cloud/ruoyi-modules/ruoyi-system/src/main/resources/mapper/system")))
                 // 策略配置
                 .strategyConfig(builder -> builder.addInclude("sys_room","sys_record","sys_order"))
 
