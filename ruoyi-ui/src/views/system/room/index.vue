@@ -1,18 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="${comment}" prop="price">
+      <el-form-item label="价格" prop="price">
         <el-input
           v-model="queryParams.price"
-          placeholder="请输入${comment}"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="${comment}" prop="desc">
-        <el-input
-          v-model="queryParams.desc"
-          placeholder="请输入${comment}"
+          placeholder="请输入价格"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -25,10 +17,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="${comment}" prop="title">
+      <el-form-item label="标题" prop="title">
         <el-input
           v-model="queryParams.title"
-          placeholder="请输入${comment}"
+          placeholder="请输入标题"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -95,15 +87,21 @@
 
     <el-table v-loading="loading" :data="roomList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
-      <el-table-column label="${comment}" align="center" prop="price" />
-      <el-table-column label="${comment}" align="center" prop="desc" />
+      <el-table-column label="ID" align="center" prop="id" />
+      <el-table-column label="价格" align="center" prop="price" />
       <el-table-column label="房型" align="center" prop="code" />
-      <el-table-column label="${comment}" align="center" prop="title" />
+      <el-table-column label="标题" align="center" prop="title" />
       <el-table-column label="房间数量" align="center" prop="number" />
-      <el-table-column label="${comment}" align="center" prop="imgUrl" />
-      <el-table-column label="在售、停售" align="center" prop="roomStatus" />
-      <el-table-column label="${comment}" align="center" prop="roomType" />
+      <el-table-column label="展示图片" align="center" prop="imgUrl">
+<!--        <template slot-scope="scope">-->
+<!--          <img src="scope.row.imgUrl" min-width="70" height="70" @click="previewimg(scope.row.imgUrl)">-->
+<!--        </template>-->
+        <template slot-scope="scope">
+          <img :src="scope.row.imgUrl" style="max-width:100px;max-height:100px">
+        </template>
+      </el-table-column>
+      <el-table-column label="状态" align="center" prop="roomStatus" />
+      <el-table-column label="房间型号" align="center" prop="roomType" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -123,7 +121,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -135,20 +133,23 @@
     <!-- 添加或修改【请填写功能名称】对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="${comment}" prop="price">
-          <el-input v-model="form.price" placeholder="请输入${comment}" />
-        </el-form-item>
-        <el-form-item label="${comment}" prop="desc">
-          <el-input v-model="form.desc" placeholder="请输入${comment}" />
+        <el-form-item label="价格" prop="price">
+          <el-input v-model="form.price" placeholder="请输入价格" />
         </el-form-item>
         <el-form-item label="房型" prop="code">
           <el-input v-model="form.code" placeholder="请输入房型" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="title">
-          <el-input v-model="form.title" placeholder="请输入${comment}" />
+        <el-form-item label="型号" prop="title">
+          <el-input v-model="form.roomType" placeholder="请输入房间型号" />
         </el-form-item>
         <el-form-item label="房间数量" prop="number">
           <el-input v-model="form.number" placeholder="请输入房间数量" />
+        </el-form-item>
+        <el-form-item label="房间图片" prop="imgUrl">
+          <el-input type="file" v-model="form.imgUrl" placeholder="请选择房间的展示图片" />
+        </el-form-item>
+        <el-form-item label="房间状态" prop="roomStatus">
+          <el-input v-model="form.roomStatus" placeholder="请输入房间状态" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -157,6 +158,7 @@
       </div>
     </el-dialog>
   </div>
+<!--  <img id="imgPreview" src="index.vue" alt="预览图片">-->
 </template>
 
 <script>
@@ -189,7 +191,6 @@ export default {
         pageNum: 1,
         pageSize: 10,
         price: null,
-        desc: null,
         code: null,
         title: null,
         number: null,
@@ -229,7 +230,6 @@ export default {
       this.form = {
         id: null,
         price: null,
-        desc: null,
         code: null,
         title: null,
         number: null,
@@ -261,7 +261,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加【请填写功能名称】";
+      this.title = "添加";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -270,7 +270,7 @@ export default {
       getRoom(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改【请填写功能名称】";
+        this.title = "修改";
       });
     },
     /** 提交按钮 */
@@ -296,7 +296,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除【请填写功能名称】编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除编号为"' + ids + '"的数据项？').then(function() {
         return delRoom(ids);
       }).then(() => {
         this.getList();

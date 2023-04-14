@@ -17,15 +17,11 @@ public class SysRoom extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** $column.columnComment */
-    private String id;
+    private Integer id;
 
     /** $column.columnComment */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private BigDecimal price;
-
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
-    private String desc;
 
     /** 房型 */
     @Excel(name = "房型")
@@ -50,34 +46,25 @@ public class SysRoom extends BaseEntity
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private String roomType;
 
-    public void setId(String id) 
-    {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getId() 
-    {
-        return id;
-    }
-    public void setPrice(BigDecimal price) 
+    public void setPrice(BigDecimal price)
     {
         this.price = price;
     }
 
-    public BigDecimal getPrice() 
+    public BigDecimal getPrice()
     {
         return price;
     }
-    public void setDesc(String desc) 
-    {
-        this.desc = desc;
-    }
 
-    public String getDesc() 
-    {
-        return desc;
-    }
-    public void setCode(String code) 
+    public void setCode(String code)
     {
         this.code = code;
     }
@@ -137,7 +124,6 @@ public class SysRoom extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("price", getPrice())
-            .append("desc", getDesc())
             .append("code", getCode())
             .append("title", getTitle())
             .append("number", getNumber())

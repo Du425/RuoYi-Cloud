@@ -17,7 +17,7 @@ public interface SysRoomMapper
      * @param id 【请填写功能名称】主键
      * @return 【请填写功能名称】
      */
-    public SysRoom selectSysRoomById(String id);
+    public SysRoom selectSysRoomById(Integer id);
 
     /**
      * 查询【请填写功能名称】列表

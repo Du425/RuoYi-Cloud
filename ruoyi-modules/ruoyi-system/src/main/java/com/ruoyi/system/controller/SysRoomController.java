@@ -1,26 +1,30 @@
 package com.ruoyi.system.controller;
 
-import java.util.List;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.core.utils.file.FileTypeUtils;
+import com.ruoyi.common.core.utils.file.MimeTypeUtils;
+import com.ruoyi.common.core.utils.poi.ExcelUtil;
+import com.ruoyi.common.core.web.controller.BaseController;
+import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
+import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.system.api.RemoteFileService;
+import com.ruoyi.system.api.domain.SysFile;
+import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.SysRoom;
+import com.ruoyi.system.domain.dto.SysRoomDto;
 import com.ruoyi.system.service.ISysRoomService;
-import com.ruoyi.common.core.web.controller.BaseController;
-import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.web.page.TableDataInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 【请填写功能名称】Controller
@@ -34,6 +38,9 @@ public class SysRoomController extends BaseController
 {
     @Autowired
     private ISysRoomService sysRoomService;
+
+    @Autowired
+    private RemoteFileService remoteFileService;
 
     /**
      * 查询【请填写功能名称】列表
@@ -65,7 +72,7 @@ public class SysRoomController extends BaseController
      */
     @RequiresPermissions("system:room:query")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") String id)
+    public AjaxResult getInfo(@PathVariable("id") Integer id)
     {
         return success(sysRoomService.selectSysRoomById(id));
     }
@@ -76,8 +83,25 @@ public class SysRoomController extends BaseController
     @RequiresPermissions("system:room:add")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody SysRoom sysRoom)
+    public AjaxResult add(@ModelAttribute SysRoomDto sysRoom)
     {
+        MultipartFile file = sysRoom.getImg();
+        String extension = FileTypeUtils.getExtension(file);
+        if (!sysRoom.getImg().isEmpty()) {
+            if (!StringUtils.equalsAnyIgnoreCase(extension, MimeTypeUtils.IMAGE_EXTENSION))
+            {
+                return error("文件格式不正确，请上传" + Arrays.toString(MimeTypeUtils.IMAGE_EXTENSION) + "格式");
+            }
+        }
+
+        R<SysFile> fileResult = remoteFileService.upload(file);
+        if (StringUtils.isNull(fileResult) || StringUtils.isNull(fileResult.getData()))
+        {
+            return error("文件服务异常，请联系管理员");
+        }
+        //todo
+        String url = fileResult.getData().getUrl();
+        sysRoom.setImgUrl(url);
         return toAjax(sysRoomService.insertSysRoom(sysRoom));
     }
 
@@ -89,6 +113,7 @@ public class SysRoomController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SysRoom sysRoom)
     {
+
         return toAjax(sysRoomService.updateSysRoom(sysRoom));
     }
 

@@ -27,7 +27,7 @@ public class SysRoomServiceImpl implements ISysRoomService
      * @return 【请填写功能名称】
      */
     @Override
-    public SysRoom selectSysRoomById(String id)
+    public SysRoom selectSysRoomById(Integer id)
     {
         return sysRoomMapper.selectSysRoomById(id);
     }
