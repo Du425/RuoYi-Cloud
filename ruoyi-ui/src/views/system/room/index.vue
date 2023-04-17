@@ -93,9 +93,6 @@
       <el-table-column label="标题" align="center" prop="title" />
       <el-table-column label="房间数量" align="center" prop="number" />
       <el-table-column label="展示图片" align="center" prop="imgUrl">
-<!--        <template slot-scope="scope">-->
-<!--          <img src="scope.row.imgUrl" min-width="70" height="70" @click="previewimg(scope.row.imgUrl)">-->
-<!--        </template>-->
         <template slot-scope="scope">
           <img :src="scope.row.imgUrl" style="max-width:100px;max-height:100px">
         </template>
@@ -132,7 +129,7 @@
 
     <!-- 添加或修改【请填写功能名称】对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px" enctype="multipart/form-data">
         <el-form-item label="价格" prop="price">
           <el-input v-model="form.price" placeholder="请输入价格" />
         </el-form-item>
@@ -146,8 +143,17 @@
           <el-input v-model="form.number" placeholder="请输入房间数量" />
         </el-form-item>
         <el-form-item label="房间图片" prop="imgUrl">
-          <el-input type="file" v-model="form.imgUrl" placeholder="请选择房间的展示图片" />
+          <el-input type="file" v-model="form.imgUrl" @change="handleFileChange" placeholder="请选择房间的展示图片" />
+<!--          <el-upload :action="uploadUrl" :headers="headers" :data="uploadData" :show-file-list="false">-->
+<!--            <img v-if="form.imgUrl" :src="form.imgUrl" style="max-width: 100px; max-height: 100px;">-->
+<!--            <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+<!--            <template slot-scope="scope">-->
+<!--              <img :src="scope.row.imgUrl" style="max-width:100px;max-height:100px">-->
+<!--            </template>-->
+<!--          </el-upload>-->
         </el-form-item>
+
+
         <el-form-item label="房间状态" prop="roomStatus">
           <el-input v-model="form.roomStatus" placeholder="请输入房间状态" />
         </el-form-item>
@@ -163,6 +169,8 @@
 
 <script>
 import { listRoom, getRoom, delRoom, addRoom, updateRoom } from "@/api/system/room";
+import axios from 'axios';
+
 
 export default {
   name: "Room",
@@ -172,6 +180,8 @@ export default {
       loading: true,
       // 选中数组
       ids: [],
+
+      imgUrl: null,
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -263,6 +273,12 @@ export default {
       this.open = true;
       this.title = "添加";
     },
+    handleFileChange(event) {
+      const file = event.target.files[0]
+      const formData = new FormData
+      formData.append("imgUrl", file)
+      this.form.imgUrl = formData
+    },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
@@ -277,6 +293,15 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          const formData = new FormData();
+          formData.append('id', this.form.id);
+          formData.append('price', this.form.price);
+          formData.append('code', this.form.code);
+          formData.append('title', this.form.title);
+          formData.append('number', this.form.number);
+          formData.append('imgUrl', this.form.imgUrl);
+          formData.append('roomStatus', this.form.roomStatus);
+          formData.append('roomType', this.form.roomType);
           if (this.form.id != null) {
             updateRoom(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
