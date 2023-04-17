@@ -92,4 +92,9 @@ public class SysOrderServiceImpl implements ISysOrderService
     {
         return sysOrderMapper.deleteSysOrderById(id);
     }
+
+    @Override
+    public List<SysOrder> queryOrderFinance() {
+        return sysOrderMapper.queryOrderFinance();
+    }
 }

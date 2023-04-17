@@ -102,4 +102,11 @@ public class SysOrderController extends BaseController
     {
         return toAjax(sysOrderService.deleteSysOrderByIds(ids));
     }
+
+    @RequiresPermissions("system:order:finance")
+    @GetMapping("/finance")
+    public AjaxResult queryFinance() {
+        List<SysOrder> sysOrders = sysOrderService.queryOrderFinance();
+        return AjaxResult.success(sysOrders);
+    }
 }

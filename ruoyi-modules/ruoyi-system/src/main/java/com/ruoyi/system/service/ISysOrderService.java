@@ -58,4 +58,6 @@ public interface ISysOrderService
      * @return 结果
      */
     public int deleteSysOrderById(Long id);
+
+    public List<SysOrder> queryOrderFinance();
 }

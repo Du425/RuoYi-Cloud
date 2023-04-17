@@ -58,4 +58,6 @@ public interface SysOrderMapper
      * @return 结果
      */
     public int deleteSysOrderByIds(Long[] ids);
+
+    public List<SysOrder> queryOrderFinance();
 }
