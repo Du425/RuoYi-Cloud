@@ -127,7 +127,7 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改【请填写功能名称】对话框 -->
+    <!-- 添加或修改 对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px" enctype="multipart/form-data">
         <el-form-item label="价格" prop="price">
@@ -190,7 +190,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 【请填写功能名称】表格数据
+      //  表格数据
       roomList: [],
       // 弹出层标题
       title: "",
@@ -221,7 +221,7 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询【请填写功能名称】列表 */
+    /** 查询 列表 */
     getList() {
       this.loading = true;
       listRoom(this.queryParams).then(response => {

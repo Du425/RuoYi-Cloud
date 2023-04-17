@@ -1,98 +1,66 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="${comment}" prop="roomId">
+      <el-form-item label="房间Id" prop="roomId">
         <el-input
           v-model="queryParams.roomId"
-          placeholder="请输入${comment}"
+          placeholder="请输入房间Id"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="${comment}" prop="userId">
+      <el-form-item label="用户Id" prop="userId">
         <el-input
           v-model="queryParams.userId"
-          placeholder="请输入${comment}"
+          placeholder="用户Id"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="${comment}" prop="quantity">
-        <el-input
-          v-model="queryParams.quantity"
-          placeholder="请输入${comment}"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="${comment}" prop="username">
+      <el-form-item label="用户名" prop="username">
         <el-input
           v-model="queryParams.username"
-          placeholder="请输入${comment}"
+          placeholder="请输入用户名"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="${comment}" prop="phone">
+      <el-form-item label="手机号" prop="phone">
         <el-input
           v-model="queryParams.phone"
-          placeholder="请输入${comment}"
+          placeholder="请输入用户手机号"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="${comment}" prop="idCard">
+      <el-form-item label="身份证" prop="idCard">
         <el-input
           v-model="queryParams.idCard"
-          placeholder="请输入${comment}"
+          placeholder="请输入用户身份证"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="${comment}" prop="price">
+      <el-form-item label="单价" prop="price">
         <el-input
           v-model="queryParams.price"
-          placeholder="请输入${comment}"
+          placeholder="请输入单价"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="${comment}" prop="totalPrice">
-        <el-input
-          v-model="queryParams.totalPrice"
-          placeholder="请输入${comment}"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="${comment}" prop="roomNumber">
-        <el-input
-          v-model="queryParams.roomNumber"
-          placeholder="请输入${comment}"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="${comment}" prop="creatTime">
+      <el-form-item label="创建时间" prop="creatTime">
         <el-date-picker clearable
           v-model="queryParams.creatTime"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="请选择${comment}">
+          placeholder="请选择创建时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="${comment}" prop="roomTypeId">
+      <el-form-item label="房间类型" prop="roomTypeId">
         <el-input
           v-model="queryParams.roomTypeId"
-          placeholder="请输入${comment}"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="${comment}" prop="orderDays">
-        <el-input
-          v-model="queryParams.orderDays"
-          placeholder="请输入${comment}"
+          placeholder="请输入房间类型"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -151,26 +119,26 @@
 
     <el-table v-loading="loading" :data="orderList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
-      <el-table-column label="${comment}" align="center" prop="roomId" />
-      <el-table-column label="${comment}" align="center" prop="userId" />
-      <el-table-column label="${comment}" align="center" prop="quantity" />
+      <el-table-column label="订单号" align="center" prop="id" />
+      <el-table-column label="房间Id" align="center" prop="roomId" />
+      <el-table-column label="用户Id" align="center" prop="userId" />
+      <el-table-column label="数量" align="center" prop="quantity" />
       <el-table-column label="订单状态" align="center" prop="status" />
-      <el-table-column label="${comment}" align="center" prop="username" />
-      <el-table-column label="${comment}" align="center" prop="phone" />
-      <el-table-column label="${comment}" align="center" prop="idCard" />
-      <el-table-column label="${comment}" align="center" prop="price" />
-      <el-table-column label="${comment}" align="center" prop="totalPrice" />
-      <el-table-column label="${comment}" align="center" prop="roomType" />
-      <el-table-column label="${comment}" align="center" prop="roomNumber" />
-      <el-table-column label="${comment}" align="center" prop="creatTime" width="180">
+      <el-table-column label="用户名" align="center" prop="username" />
+      <el-table-column label="手机号" align="center" prop="phone" />
+      <el-table-column label="身份证" align="center" prop="idCard" />
+      <el-table-column label="单价" align="center" prop="price" />
+      <el-table-column label="总价" align="center" prop="totalPrice" />
+      <el-table-column label="房间类型" align="center" prop="roomType" />
+      <el-table-column label="房间数量" align="center" prop="roomNumber" />
+      <el-table-column label="创建时间" align="center" prop="creatTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.creatTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="${comment}" align="center" prop="orderType" />
-      <el-table-column label="${comment}" align="center" prop="roomTypeId" />
-      <el-table-column label="${comment}" align="center" prop="orderDays" />
+      <el-table-column label="订单类型" align="center" prop="orderType" />
+      <el-table-column label="房间类型Id" align="center" prop="roomTypeId" />
+      <el-table-column label="订单入住时长" align="center" prop="orderDays" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -190,7 +158,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -199,49 +167,49 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改【请填写功能名称】对话框 -->
+    <!-- 添加或修改 对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="${comment}" prop="roomId">
-          <el-input v-model="form.roomId" placeholder="请输入${comment}" />
+        <el-form-item label="房间Id" prop="roomId">
+          <el-input v-model="form.roomId" placeholder="请输入房间Id" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="userId">
-          <el-input v-model="form.userId" placeholder="请输入${comment}" />
+        <el-form-item label="用户Id" prop="userId">
+          <el-input v-model="form.userId" placeholder="请输入用户Id" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="quantity">
-          <el-input v-model="form.quantity" placeholder="请输入${comment}" />
+        <el-form-item label="数量" prop="quantity">
+          <el-input v-model="form.quantity" placeholder="请输入数量" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="username">
-          <el-input v-model="form.username" placeholder="请输入${comment}" />
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="form.username" placeholder="请输入用户名" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="phone">
-          <el-input v-model="form.phone" placeholder="请输入${comment}" />
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="form.phone" placeholder="请输入手机号" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="idCard">
-          <el-input v-model="form.idCard" placeholder="请输入${comment}" />
+        <el-form-item label="身份证" prop="idCard">
+          <el-input v-model="form.idCard" placeholder="请输入身份证" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="price">
-          <el-input v-model="form.price" placeholder="请输入${comment}" />
+        <el-form-item label="单价" prop="price">
+          <el-input v-model="form.price" placeholder="请输入单价" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="totalPrice">
-          <el-input v-model="form.totalPrice" placeholder="请输入${comment}" />
+        <el-form-item label="总价" prop="totalPrice">
+          <el-input v-model="form.totalPrice" placeholder="请输入总价" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="roomNumber">
-          <el-input v-model="form.roomNumber" placeholder="请输入${comment}" />
+        <el-form-item label="房间数量" prop="roomNumber">
+          <el-input v-model="form.roomNumber" placeholder="请输入房间数量" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="creatTime">
+        <el-form-item label="创建时间" prop="creatTime">
           <el-date-picker clearable
             v-model="form.creatTime"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="请选择${comment}">
+            placeholder="请选择创建时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="${comment}" prop="roomTypeId">
-          <el-input v-model="form.roomTypeId" placeholder="请输入${comment}" />
+        <el-form-item label="房型Id" prop="roomTypeId">
+          <el-input v-model="form.roomTypeId" placeholder="请输入房型Id" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="orderDays">
-          <el-input v-model="form.orderDays" placeholder="请输入${comment}" />
+        <el-form-item label="订单入住时长" prop="orderDays">
+          <el-input v-model="form.orderDays" placeholder="请输入订单入住时长" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -271,7 +239,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 【请填写功能名称】表格数据
+      //  表格数据
       orderList: [],
       // 弹出层标题
       title: "",
@@ -308,7 +276,7 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询【请填写功能名称】列表 */
+    /** 查询 列表 */
     getList() {
       this.loading = true;
       listOrder(this.queryParams).then(response => {
@@ -365,7 +333,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加【请填写功能名称】";
+      this.title = "添加";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -374,7 +342,7 @@ export default {
       getOrder(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改【请填写功能名称】";
+        this.title = "修改";
       });
     },
     /** 提交按钮 */
@@ -400,7 +368,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除【请填写功能名称】编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除 编号为"' + ids + '"的数据项？').then(function() {
         return delOrder(ids);
       }).then(() => {
         this.getList();

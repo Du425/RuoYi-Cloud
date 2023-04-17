@@ -107,7 +107,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -116,7 +116,7 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改【请填写功能名称】对话框 -->
+    <!-- 添加或修改 对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="${comment}" prop="desc">
@@ -161,7 +161,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 【请填写功能名称】表格数据
+      //  表格数据
       recordList: [],
       // 弹出层标题
       title: "",
@@ -190,7 +190,7 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询【请填写功能名称】列表 */
+    /** 查询 列表 */
     getList() {
       this.loading = true;
       listRecord(this.queryParams).then(response => {
@@ -235,7 +235,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加【请填写功能名称】";
+      this.title = "添加 ";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -244,7 +244,7 @@ export default {
       getRecord(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改【请填写功能名称】";
+        this.title = "修改 ";
       });
     },
     /** 提交按钮 */
@@ -270,7 +270,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除【请填写功能名称】编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除 编号为"' + ids + '"的数据项？').then(function() {
         return delRecord(ids);
       }).then(() => {
         this.getList();

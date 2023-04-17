@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询【请填写功能名称】列表
+// 查询 列表
 export function listRecord(query) {
   return request({
     url: '/system/record/list',
@@ -9,7 +9,7 @@ export function listRecord(query) {
   })
 }
 
-// 查询【请填写功能名称】详细
+// 查询 详细
 export function getRecord(id) {
   return request({
     url: '/system/record/' + id,
@@ -17,7 +17,7 @@ export function getRecord(id) {
   })
 }
 
-// 新增【请填写功能名称】
+// 新增
 export function addRecord(data) {
   return request({
     url: '/system/record',
@@ -26,7 +26,7 @@ export function addRecord(data) {
   })
 }
 
-// 修改【请填写功能名称】
+// 修改
 export function updateRecord(data) {
   return request({
     url: '/system/record',
@@ -35,7 +35,7 @@ export function updateRecord(data) {
   })
 }
 
-// 删除【请填写功能名称】
+// 删除
 export function delRecord(id) {
   return request({
     url: '/system/record/' + id,

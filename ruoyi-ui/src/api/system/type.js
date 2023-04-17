@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询【请填写功能名称】列表
+// 查询 列表
 export function listType(query) {
   return request({
     url: '/system/type/list',
@@ -9,7 +9,7 @@ export function listType(query) {
   })
 }
 
-// 查询【请填写功能名称】详细
+// 查询 详细
 export function getType(id) {
   return request({
     url: '/system/type/' + id,
@@ -17,7 +17,7 @@ export function getType(id) {
   })
 }
 
-// 新增【请填写功能名称】
+// 新增
 export function addType(data) {
   return request({
     url: '/system/type',
@@ -26,7 +26,7 @@ export function addType(data) {
   })
 }
 
-// 修改【请填写功能名称】
+// 修改
 export function updateType(data) {
   return request({
     url: '/system/type',
@@ -35,7 +35,7 @@ export function updateType(data) {
   })
 }
 
-// 删除【请填写功能名称】
+// 删除
 export function delType(id) {
   return request({
     url: '/system/type/' + id,
