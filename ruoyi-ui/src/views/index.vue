@@ -84,55 +84,19 @@
 
       </el-col>
     </el-row>
-    <el-row :gutter="20">
-      <el-col :sm="24" :lg="12" style="padding-left: 20px">
-        <h2>酒店后台管理框架</h2>
-        <p>
-          她可以用于所有的Web应用程序，如网站管理后台，网站会员中心，CMS，CRM，OA等等，当然，您也可以对她进行深度定制，以做出更强系统。所有前端后台代码封装过后十分精简易上手，出错概率低。同时支持移动客户端访问。系统会陆续更新一些实用功能。
-        </p>
-        <p>
-          <b>当前版本:</b> <span>v{{ version }}</span>
-        </p>
-        <p>
-          <el-tag type="danger">&yen;免费开源</el-tag>
-        </p>
-      </el-col>
-
-      <el-col :sm="24" :lg="12" style="padding-left: 50px">
-        <el-row>
-          <el-col :span="12">
-            <h2>技术选型</h2>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <h4>后端技术</h4>
-            <ul>
-              <li>SpringBoot</li>
-              <li>SpringCloud</li>
-              <li>Nacos</li>
-              <li>Sentinel</li>
-              <li>Seata</li>
-              <li>Minio</li>
-              <li>...</li>
-            </ul>
-          </el-col>
-          <el-col :span="6">
-            <h4>前端技术</h4>
-            <ul>
-              <li>Vue</li>
-              <li>Vuex</li>
-              <li>Element-ui</li>
-              <li>Axios</li>
-              <li>Echarts</li>
-              <li>Quill</li>
-              <li>...</li>
-            </ul>
-          </el-col>
-        </el-row>
-      </el-col>
-    </el-row>
-    <el-divider />
+    <el-form>
+      <el-form-item label="请选择入住时间">
+        <el-date-picker
+          v-model="dateRange"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="入住日期"
+          end-placeholder="离店日期"
+        ></el-date-picker>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
