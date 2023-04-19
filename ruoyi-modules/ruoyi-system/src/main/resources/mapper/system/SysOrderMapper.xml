@@ -22,10 +22,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="orderType"    column="order_type"    />
         <result property="roomTypeId"    column="room_type_id"    />
         <result property="orderDays"    column="order_days"    />
+        <result property="checkin_date"    column="checkin_date"    />
+        <result property="checkout_date"    column="checkout_date"    />
     </resultMap>
 
     <sql id="selectSysOrderVo">
-        select id, room_id, user_id, quantity, status, username, phone, id_card, price, total_price, room_type, room_number,  create_time, update_time, order_type, room_type_id, order_days from sys_order
+        select id, room_id, user_id, quantity, status, username, phone, id_card, price, total_price, room_type, room_number,  create_time, update_time, order_type, room_type_id, order_days, checkin_date, checkout_date from sys_order
     </sql>
 
     <select id="selectSysOrderList" parameterType="SysOrder" resultMap="SysOrderResult">
@@ -46,6 +48,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderType != null  and orderType != ''"> and order_type = #{orderType}</if>
             <if test="roomTypeId != null "> and room_type_id = #{roomTypeId}</if>
             <if test="orderDays != null "> and order_days = #{orderDays}</if>
+            <if test="checkinDate != null "> and checkin_date = #{checkinDate}</if>
+            <if test="checkout_date != null "> and checkout_date = #{checkoutDate}</if>
         </where>
     </select>
     
@@ -54,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
     <select id="queryOrderFinance" resultType="com.ruoyi.system.domain.SysOrder">
-        select id, room_id, username, phone, total_price, order_days, room_number, create_time from sys_order
+        select id, room_id, username, phone, total_price, order_days, room_number, create_time, checkin_date, checkout_date from sys_order
         where status = '支付成功'
     </select>
 
@@ -78,6 +82,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderType != null">order_type,</if>
             <if test="roomTypeId != null">room_type_id,</if>
             <if test="orderDays != null">order_days,</if>
+            <if test="checkin_date != null">checkin_date,</if>
+            <if test="checkout_date != null">checkout_date,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -97,6 +103,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderType != null">#{orderType},</if>
             <if test="roomTypeId != null">#{roomTypeId},</if>
             <if test="orderDays != null">#{orderDays},</if>
+            <if test="checkin_date != null">checkin_date,</if>
+            <if test="checkout_date != null">checkout_date,</if>
          </trim>
     </insert>
 
@@ -119,6 +127,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderType != null">order_type = #{orderType},</if>
             <if test="roomTypeId != null">room_type_id = #{roomTypeId},</if>
             <if test="orderDays != null">order_days = #{orderDays},</if>
+            <if test="checkin_date != null">checkin_date,</if>
+            <if test="checkout_date != null">checkout_date,</if>
         </trim>
         where id = #{id}
     </update>

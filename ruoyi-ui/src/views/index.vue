@@ -24,7 +24,7 @@
             <h3>房型：{{ room.title }}</h3>
             <h3>入住人数：{{ room.code}}</h3>
             <div class="bottom clearfix">
-              <el-button type="text" class="button">详情预定</el-button>
+              <el-button type="text" class="button" @click="goToOrder(room.id)" >详情预定</el-button>
             </div>
           </div>
         </el-card>

@@ -81,7 +81,27 @@ public class SysOrder extends BaseEntity
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private Long orderDays;
 
-    public void setId(Long id) 
+    private Date checkinDate;
+
+    private Date checkoutDate;
+
+    public Date getCheckinDate() {
+        return checkinDate;
+    }
+
+    public void setCheckinDate(Date checkinDate) {
+        this.checkinDate = checkinDate;
+    }
+
+    public Date getCheckoutDate() {
+        return checkoutDate;
+    }
+
+    public void setCheckoutDate(Date checkoutDate) {
+        this.checkoutDate = checkoutDate;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -246,6 +266,8 @@ public class SysOrder extends BaseEntity
             .append("orderType", getOrderType())
             .append("roomTypeId", getRoomTypeId())
             .append("orderDays", getOrderDays())
+                .append("checkinDate", getCheckinDate())
+                .append("checkoutDate", getCheckoutDate())
             .toString();
     }
 }
