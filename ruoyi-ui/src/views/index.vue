@@ -8,7 +8,7 @@
           style="width: 240px"
           value-format="yyyy-MM-dd"
           type="daterange"
-          range-separator="-"
+          range-separator="--"
           start-placeholder="入住日期"
           end-placeholder="离店日期"
         ></el-date-picker>
@@ -27,7 +27,7 @@
               <el-button type="primary"
                          class="button "
                          plain
-                         @click="handleAdd"
+                         @click="handleAdd(room)"
                          icon="el-icon-plus"
                          v-hasPermi="['system:order:add']"
               >预定</el-button>
@@ -46,7 +46,7 @@
               <el-button type="primary"
                          class="button "
                          plain
-                         @click="handleAdd"
+                         @click="handleAdd(room)"
                          icon="el-icon-plus"
                          v-hasPermi="['system:order:add']"
               >预定</el-button>
@@ -57,12 +57,15 @@
     </el-row>
 
     <!-- 添加或修改 对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" :close-on-click-modal="false" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="房间Id" prop="roomId">
-          <el-input v-model="form.roomId" placeholder="请输入房间Id" />
+          <el-input v-model="form.roomId" disabled />
         </el-form-item>
-        <el-form-item label="数量" prop="quantity">
+        <el-form-item label="房型" prop="roomCode">
+          <el-input v-model="form.roomCode" placeholder="请输入房型" />
+        </el-form-item>
+        <el-form-item label="预定房间数量" prop="quantity">
           <el-input v-model="form.quantity" placeholder="请输入数量" />
         </el-form-item>
         <el-form-item label="用户名" prop="username">
@@ -75,13 +78,10 @@
           <el-input v-model="form.idCard" placeholder="请输入身份证" />
         </el-form-item>
         <el-form-item label="单价" prop="price">
-          <el-input v-model="form.price" placeholder="请输入单价" />
+          <el-input v-model="form.price" disabled />
         </el-form-item>
         <el-form-item label="总价" prop="totalPrice">
-          <el-input v-model="form.totalPrice" placeholder="请输入总价" />
-        </el-form-item>
-        <el-form-item label="房间数量" prop="roomNumber">
-          <el-input v-model="form.roomNumber" placeholder="请输入房间数量" />
+          <el-input v-model="form.price * form.quantity" disabled/>
         </el-form-item>
         <el-form-item label="入住日期" prop="checkinDate">
           <el-date-picker clearable
@@ -99,9 +99,7 @@
                           placeholder="请选择离店时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="房型Id" prop="roomTypeId">
-          <el-input v-model="form.roomTypeId" placeholder="请输入房型Id" />
-        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -158,7 +156,12 @@ export default {
         roomType: null,
       },
       // 表单参数
-      form: {},
+      form: {
+        roomId: "",
+        price: "",
+        roomCode:"",
+        totalPrice: ""
+      },
       // 表单校验
       rules: {
 
@@ -169,10 +172,6 @@ export default {
     this.getList()
   },
   methods: {
-    selectDateRangeHandle(e) {
-      this.show = false;
-      this.dateRange = `入住${e.startDate}离店${e.endDate}, 住${e.seletDays - 1}晚`
-    },
     /** 查询 列表 */
     getList() {
       this.loading = true;
@@ -184,8 +183,14 @@ export default {
       });
     },
     /** 新增按钮操作 */
-    handleAdd() {
+    handleAdd(room) {
       this.reset();
+      this.form = {
+        roomId: room.id,
+        price: room.price,
+        roomCode: room.code,
+      }
+
       this.open = true;
       this.title = "预定";
     },
@@ -194,6 +199,7 @@ export default {
       this.form = {
         id: null,
         roomId: null,
+        roomCode: null,
         userId: null,
         quantity: null,
         status: null,
@@ -209,7 +215,6 @@ export default {
         creatTime: null,
         updateTime: null,
         orderType: null,
-        roomTypeId: null,
         orderDays: null
       };
       this.resetForm("form");
@@ -220,7 +225,7 @@ export default {
       this.$refs["form"].validate(valid => {
         if(valid) {
           addOrder(this.form).then(response => {
-            this.$modal.msgSuccess("新增成功");
+            this.$modal.msgSuccess("下单成功！");
             this.open = false;
             this.getList();
           });

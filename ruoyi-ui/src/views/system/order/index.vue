@@ -170,15 +170,15 @@
     />
 
     <!-- 添加或修改 对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" :close-on-click-modal="false" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="房间Id" prop="roomId">
-          <el-input v-model="form.roomId" placeholder="请输入房间Id" />
+          <el-input v-model="form.roomId" disabled />
         </el-form-item>
-        <el-form-item label="用户Id" prop="userId">
-          <el-input v-model="form.userId" placeholder="请输入用户Id" />
+        <el-form-item label="房型" prop="roomCode">
+          <el-input v-model="form.roomCode" placeholder="请输入房型" />
         </el-form-item>
-        <el-form-item label="数量" prop="quantity">
+        <el-form-item label="预定房间数量" prop="quantity">
           <el-input v-model="form.quantity" placeholder="请输入数量" />
         </el-form-item>
         <el-form-item label="用户名" prop="username">
@@ -191,13 +191,10 @@
           <el-input v-model="form.idCard" placeholder="请输入身份证" />
         </el-form-item>
         <el-form-item label="单价" prop="price">
-          <el-input v-model="form.price" placeholder="请输入单价" />
+          <el-input v-model="form.price" disabled />
         </el-form-item>
         <el-form-item label="总价" prop="totalPrice">
-          <el-input v-model="form.totalPrice" placeholder="请输入总价" />
-        </el-form-item>
-        <el-form-item label="房间数量" prop="roomNumber">
-          <el-input v-model="form.roomNumber" placeholder="请输入房间数量" />
+          <el-input v-model="form.price * form.quantity" placeholder="请输入总价" />
         </el-form-item>
         <el-form-item label="入住日期" prop="checkinDate">
           <el-date-picker clearable
@@ -215,20 +212,7 @@
                           placeholder="请选择离店时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="创建时间" prop="creatTime">
-          <el-date-picker clearable
-            v-model="form.creatTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择创建时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="房型Id" prop="roomTypeId">
-          <el-input v-model="form.roomTypeId" placeholder="请输入房型Id" />
-        </el-form-item>
-        <el-form-item label="订单入住时长" prop="orderDays">
-          <el-input v-model="form.orderDays" placeholder="请输入订单入住时长" />
-        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
