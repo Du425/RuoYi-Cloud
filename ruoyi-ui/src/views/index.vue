@@ -16,8 +16,21 @@
     </el-form>
 
     <el-row>
-      <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
-        <el-card v-for="room in roomList" :key="room.id">
+      <el-col :span="10" v-for="(room, index) in roomList" :key="room.id" :offset="index % 2 === 1 ? 2 : 0" v-if="index % 2 === 0">
+        <el-card :body-style="{padding: '0px'}">
+          <el-image :src="room.imgUrl" fit="contain"  ></el-image>
+          <div>
+            <el-tag>价格：{{ room.price }}</el-tag>
+            <h3>房型：{{ room.title }}</h3>
+            <h3>入住人数：{{ room.code}}</h3>
+            <div class="bottom clearfix">
+              <el-button type="text" class="button">详情预定</el-button>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="10" v-for="(room, index) in roomList" :key="room.id" :offset="index % 2 === 0 ? 2 : 0" v-if="index % 2 === 1">
+        <el-card :body-style="{padding: '0px'}">
           <el-image :src="room.imgUrl" fit="contain"  ></el-image>
           <div>
             <el-tag>价格：{{ room.price }}</el-tag>
