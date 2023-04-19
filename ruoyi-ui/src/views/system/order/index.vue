@@ -131,6 +131,8 @@
       <el-table-column label="总价" align="center" prop="totalPrice" />
       <el-table-column label="房间类型" align="center" prop="roomType" />
       <el-table-column label="房间数量" align="center" prop="roomNumber" />
+      <el-table-column label="入住日期" align="center" prop="checkinDate"/>
+      <el-table-column label="离店日期" align="center" prop="checkoutDate"/>
       <el-table-column label="创建时间" align="center" prop="creatTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.creatTime, '{y}-{m}-{d}') }}</span>
@@ -196,6 +198,22 @@
         </el-form-item>
         <el-form-item label="房间数量" prop="roomNumber">
           <el-input v-model="form.roomNumber" placeholder="请输入房间数量" />
+        </el-form-item>
+        <el-form-item label="入住日期" prop="checkinDate">
+          <el-date-picker clearable
+                          v-model="form.checkinDate"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择入住时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="离店日期" prop="checkoutDate">
+          <el-date-picker clearable
+                          v-model="form.checkoutDate"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择离店时间">
+          </el-date-picker>
         </el-form-item>
         <el-form-item label="创建时间" prop="creatTime">
           <el-date-picker clearable
@@ -305,6 +323,8 @@ export default {
         totalPrice: null,
         roomType: null,
         roomNumber: null,
+        checkinDate: null,
+        checkoutDate: null,
         creatTime: null,
         updateTime: null,
         orderType: null,

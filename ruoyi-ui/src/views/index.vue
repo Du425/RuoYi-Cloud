@@ -24,7 +24,13 @@
             <h3>房型：{{ room.title }}</h3>
             <h3>入住人数：{{ room.code}}</h3>
             <div class="bottom clearfix">
-              <el-button type="text" class="button" @click="goToOrder(room.id)" >详情预定</el-button>
+              <el-button type="primary"
+                         class="button "
+                         plain
+                         @click="handleAdd"
+                         icon="el-icon-plus"
+                         v-hasPermi="['system:order:add']"
+              >预定</el-button>
             </div>
           </div>
         </el-card>
@@ -37,14 +43,71 @@
             <h3>房型：{{ room.title }}</h3>
             <h3>入住人数：{{ room.code}}</h3>
             <div class="bottom clearfix">
-              <el-button type="text" class="button">详情预定</el-button>
+              <el-button type="primary"
+                         class="button "
+                         plain
+                         @click="handleAdd"
+                         icon="el-icon-plus"
+                         v-hasPermi="['system:order:add']"
+              >预定</el-button>
             </div>
           </div>
         </el-card>
       </el-col>
     </el-row>
 
-
+    <!-- 添加或修改 对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="房间Id" prop="roomId">
+          <el-input v-model="form.roomId" placeholder="请输入房间Id" />
+        </el-form-item>
+        <el-form-item label="数量" prop="quantity">
+          <el-input v-model="form.quantity" placeholder="请输入数量" />
+        </el-form-item>
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="form.username" placeholder="请输入用户名" />
+        </el-form-item>
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="form.phone" placeholder="请输入手机号" />
+        </el-form-item>
+        <el-form-item label="身份证" prop="idCard">
+          <el-input v-model="form.idCard" placeholder="请输入身份证" />
+        </el-form-item>
+        <el-form-item label="单价" prop="price">
+          <el-input v-model="form.price" placeholder="请输入单价" />
+        </el-form-item>
+        <el-form-item label="总价" prop="totalPrice">
+          <el-input v-model="form.totalPrice" placeholder="请输入总价" />
+        </el-form-item>
+        <el-form-item label="房间数量" prop="roomNumber">
+          <el-input v-model="form.roomNumber" placeholder="请输入房间数量" />
+        </el-form-item>
+        <el-form-item label="入住日期" prop="checkinDate">
+          <el-date-picker clearable
+                          v-model="form.checkinDate"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择入住时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="离店日期" prop="checkoutDate">
+          <el-date-picker clearable
+                          v-model="form.checkoutDate"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择离店时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="房型Id" prop="roomTypeId">
+          <el-input v-model="form.roomTypeId" placeholder="请输入房型Id" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
@@ -52,6 +115,7 @@
 <script>
 import Calendar from "@/components/Calendar/calendar";
 import { listRoom, getRoom } from "@/api/system/room";
+import {addOrder, updateOrder} from "@/api/system/order";
 
 export default {
   name: "Index",
@@ -79,7 +143,7 @@ export default {
       //  表格数据
       roomList: [],
       // 弹出层标题
-      title: "",
+      title: "下单",
       // 是否显示弹出层
       open: false,
       // 查询参数
@@ -97,9 +161,7 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        roomStatus: [
-          { required: true, message: "在售、停售不能为空", trigger: "change" }
-        ],
+
       }
     };
   },
@@ -120,6 +182,55 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+    },
+    /** 新增按钮操作 */
+    handleAdd() {
+      this.reset();
+      this.open = true;
+      this.title = "预定";
+    },
+    // 表单重置
+    reset() {
+      this.form = {
+        id: null,
+        roomId: null,
+        userId: null,
+        quantity: null,
+        status: null,
+        username: null,
+        phone: null,
+        idCard: null,
+        price: null,
+        totalPrice: null,
+        roomType: null,
+        roomNumber: null,
+        checkinDate: null,
+        checkoutDate: null,
+        creatTime: null,
+        updateTime: null,
+        orderType: null,
+        roomTypeId: null,
+        orderDays: null
+      };
+      this.resetForm("form");
+    },
+
+    /** 提交按钮 */
+    submitForm() {
+      this.$refs["form"].validate(valid => {
+        if(valid) {
+          addOrder(this.form).then(response => {
+            this.$modal.msgSuccess("新增成功");
+            this.open = false;
+            this.getList();
+          });
+        }
+      });
+    },
+    // 取消按钮
+    cancel() {
+      this.open = false;
+      this.reset();
     },
   },
 };
