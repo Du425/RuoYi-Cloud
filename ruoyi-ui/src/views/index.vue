@@ -16,7 +16,7 @@
     </el-form>
 
     <el-row>
-      <el-col :span="10" v-for="(room, index) in roomList" :key="room.id" :offset="index % 2 === 1 ? 2 : 0" v-if="index % 2 === 0">
+      <el-col :span="11" v-for="(room, index) in roomList" :key="room.id" :offset="index % 2 === 1 ? 2 : 0" v-if="index % 2 === 0">
         <el-card :body-style="{padding: '0px'}">
           <el-image :src="room.imgUrl" fit="contain"  ></el-image>
           <div>
@@ -29,7 +29,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="10" v-for="(room, index) in roomList" :key="room.id" :offset="index % 2 === 0 ? 2 : 0" v-if="index % 2 === 1">
+      <el-col :span="11" v-for="(room, index) in roomList" :key="room.id" :offset="index % 2 === 0 ? 2 : 0" v-if="index % 2 === 1">
         <el-card :body-style="{padding: '0px'}">
           <el-image :src="room.imgUrl" fit="contain"  ></el-image>
           <div>
@@ -162,6 +162,17 @@ export default {
   .room-info {
     padding: 10px;
     background-color: #f2f2f2;
+  }
+
+  .button {
+    padding: 0;
+    float: left;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
   }
   ul {
     padding: 0;
