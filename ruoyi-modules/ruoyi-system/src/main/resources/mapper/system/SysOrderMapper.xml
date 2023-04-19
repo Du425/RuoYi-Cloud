@@ -22,8 +22,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="orderType"    column="order_type"    />
         <result property="roomTypeId"    column="room_type_id"    />
         <result property="orderDays"    column="order_days"    />
-        <result property="checkin_date"    column="checkin_date"    />
-        <result property="checkout_date"    column="checkout_date"    />
+        <result property="checkinDate"    column="checkin_date"    />
+        <result property="checkoutDate"    column="checkout_date"    />
     </resultMap>
 
     <sql id="selectSysOrderVo">
