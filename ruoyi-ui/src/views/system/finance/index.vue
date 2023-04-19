@@ -5,7 +5,7 @@
 
     <el-table v-loading="loading" :data="totalAccout " @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="订单号" align="center" prop="id" />
+      <el-table-column label="总金额" align="center" prop="id" />
     </el-table>
 
     <el-table v-loading="loading" :data="orderList" @selection-change="handleSelectionChange">

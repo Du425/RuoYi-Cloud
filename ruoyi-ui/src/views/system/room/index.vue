@@ -143,17 +143,8 @@
           <el-input v-model="form.number" placeholder="请输入房间数量" />
         </el-form-item>
         <el-form-item label="房间图片" prop="imgUrl">
-          <el-input type="file" v-model="form.imgUrl" @change="handleFileChange" placeholder="请选择房间的展示图片" />
-<!--          <el-upload :action="uploadUrl" :headers="headers" :data="uploadData" :show-file-list="false">-->
-<!--            <img v-if="form.imgUrl" :src="form.imgUrl" style="max-width: 100px; max-height: 100px;">-->
-<!--            <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
-<!--            <template slot-scope="scope">-->
-<!--              <img :src="scope.row.imgUrl" style="max-width:100px;max-height:100px">-->
-<!--            </template>-->
-<!--          </el-upload>-->
+          <ImgUpload v-model="form.imgUrl"></ImgUpload>
         </el-form-item>
-
-
         <el-form-item label="房间状态" prop="roomStatus">
           <el-input v-model="form.roomStatus" placeholder="请输入房间状态" />
         </el-form-item>
@@ -164,16 +155,17 @@
       </div>
     </el-dialog>
   </div>
-<!--  <img id="imgPreview" src="index.vue" alt="预览图片">-->
 </template>
 
 <script>
 import { listRoom, getRoom, delRoom, addRoom, updateRoom } from "@/api/system/room";
-import axios from 'axios';
-
+import ImgUpload from "@/components/ImageUpload/index"
 
 export default {
   name: "Room",
+  components: {
+    ImgUpload,
+  },
   data() {
     return {
       // 遮罩层
@@ -182,6 +174,7 @@ export default {
       ids: [],
 
       imgUrl: null,
+      img: null,
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -206,6 +199,7 @@ export default {
         number: null,
         roomStatus: null,
         roomType: null,
+        img: null
       },
       // 表单参数
       form: {},
@@ -272,12 +266,6 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加";
-    },
-    handleFileChange(event) {
-      const file = event.target.files[0]
-      const formData = new FormData
-      formData.append("imgUrl", file)
-      this.form.imgUrl = formData
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

@@ -1,89 +1,6 @@
-
-<!--<template>-->
-<!--  <div class="hotel-page">-->
-<!--    <header>-->
-<!--      <navigation-bar />-->
-<!--    </header>-->
-<!--    <main>-->
-<!--      <hotel-search />-->
-<!--      <hotel-room-list :rooms="rooms" />-->
-<!--      <booking-form />-->
-<!--    </main>-->
-<!--    <footer>-->
-<!--      <copyright />-->
-<!--    </footer>-->
-<!--  </div>-->
-<!--</template>-->
-
-<!--<script>-->
-<!--import NavigationBar from "@/components/NavigationBar.vue";-->
-<!--import HotelSearch from "@/components/HotelSearch.vue";-->
-<!--import HotelRoomList from "@/components/HotelRoomList.vue";-->
-<!--import BookingForm from "@/components/BookingForm.vue";-->
-<!--import Copyright from "@/components/Copyright.vue";-->
-
-<!--export default {-->
-<!--  name: "HotelPage",-->
-<!--  components: {-->
-<!--    NavigationBar,-->
-<!--    HotelSearch,-->
-<!--    HotelRoomList,-->
-<!--    BookingForm,-->
-<!--    Copyright,-->
-<!--  },-->
-<!--  data() {-->
-<!--    return {-->
-<!--      rooms: [],-->
-<!--    };-->
-<!--  },-->
-<!--  created() {-->
-<!--    // fetch rooms data from API-->
-<!--    this.fetchRooms();-->
-<!--  },-->
-<!--  methods: {-->
-<!--    fetchRooms() {-->
-<!--      // make API request to fetch rooms data-->
-<!--      // and update rooms property with the response-->
-<!--      // this.rooms = response.data;-->
-<!--    },-->
-<!--  },-->
-<!--};-->
-<!--</script>-->
-
-<!--<style scoped>-->
-<!--.hotel-page {-->
-<!--  display: flex;-->
-<!--  flex-direction: column;-->
-<!--  min-height: 100vh;-->
-<!--}-->
-
-<!--main {-->
-<!--  flex: 1;-->
-<!--  display: flex;-->
-<!--  flex-direction: column;-->
-<!--}-->
-<!--</style>-->
-
-
-
-
-
-
-
-
-
-
-
 <template>
   <div class="app-container home">
 
-    <calendar></calendar>
-
-    <el-row :gutter="20">
-      <el-col :sm="24" :lg="24">
-
-      </el-col>
-    </el-row>
     <el-form>
       <el-form-item label="请选择入住时间">
         <el-date-picker
@@ -97,11 +14,32 @@
         ></el-date-picker>
       </el-form-item>
     </el-form>
+
+    <el-row>
+      <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
+        <el-card v-for="room in roomList" :key="room.id">
+          <el-image :src="room.imgUrl" fit="contain"  ></el-image>
+          <div>
+            <el-tag>价格：{{ room.price }}</el-tag>
+            <h3>房型：{{ room.title }}</h3>
+            <h3>入住人数：{{ room.code}}</h3>
+            <div class="bottom clearfix">
+              <el-button type="text" class="button">详情预定</el-button>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+
+
+
   </div>
 </template>
 
 <script>
 import Calendar from "@/components/Calendar/calendar";
+import { listRoom, getRoom } from "@/api/system/room";
+
 export default {
   name: "Index",
   components: {
@@ -111,15 +49,65 @@ export default {
     return {
       // 版本号
       version: "1.1.0",
+      // 遮罩层
+      loading: true,
+      // 选中数组
+      ids: [],
+      imgUrl: null,
+      // 非单个禁用
+      single: true,
+      // 非多个禁用
+      multiple: true,
+      // 显示搜索条件
+      showSearch: true,
+      // 总条数
+      total: 0,
+      dateRange: [],
+      //  表格数据
+      roomList: [],
+      // 弹出层标题
+      title: "",
+      // 是否显示弹出层
+      open: false,
+      // 查询参数
+      queryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        price: null,
+        code: null,
+        title: null,
+        number: null,
+        roomStatus: null,
+        roomType: null,
+      },
+      // 表单参数
+      form: {},
+      // 表单校验
+      rules: {
+        roomStatus: [
+          { required: true, message: "在售、停售不能为空", trigger: "change" }
+        ],
+      }
     };
   },
+  mounted() {
+    this.getList()
+  },
   methods: {
-    goTarget(href) {
-      window.open(href, "_blank");
+    selectDateRangeHandle(e) {
+      this.show = false;
+      this.dateRange = `入住${e.startDate}离店${e.endDate}, 住${e.seletDays - 1}晚`
     },
-    getCalendar() {
-      this.$refs['hotelCalendar'].getCalenderList(date, mixDate, maxDate);
-    }
+    /** 查询 列表 */
+    getList() {
+      this.loading = true;
+      console.log("call")
+      listRoom(this.queryParams).then(response => {
+        this.roomList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      });
+    },
   },
 };
 </script>
@@ -141,7 +129,27 @@ export default {
   .col-item {
     margin-bottom: 20px;
   }
+  .room-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
 
+  .room-item {
+    width: 300px;
+    margin-bottom: 20px;
+  }
+
+  .room-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .room-info {
+    padding: 10px;
+    background-color: #f2f2f2;
+  }
   ul {
     padding: 0;
     margin: 0;
