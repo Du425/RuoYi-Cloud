@@ -66,7 +66,7 @@
           <el-input v-model="form.roomCode" placeholder="请输入房型" />
         </el-form-item>
         <el-form-item label="预定房间数量" prop="quantity">
-          <el-input v-model="form.quantity" placeholder="请输入数量" />
+          <el-input-number v-model="form.quantity" :min=1></el-input-number>
         </el-form-item>
         <el-form-item label="用户名" prop="username">
           <el-input v-model="form.username" placeholder="请输入用户名" />
@@ -78,10 +78,10 @@
           <el-input v-model="form.idCard" placeholder="请输入身份证" />
         </el-form-item>
         <el-form-item label="单价" prop="price">
-          <el-input v-model="form.price" disabled />
+          <el-input v-model="form.price" type="number" disabled />
         </el-form-item>
         <el-form-item label="总价" prop="totalPrice">
-          <el-input v-model="form.price * form.quantity" disabled/>
+          <el-input :value="form.price * form.quantity" />
         </el-form-item>
         <el-form-item label="入住日期" prop="checkinDate">
           <el-date-picker clearable
@@ -160,7 +160,8 @@ export default {
         roomId: "",
         price: "",
         roomCode:"",
-        totalPrice: ""
+        totalPrice: "",
+        quantity: 1
       },
       // 表单校验
       rules: {
@@ -188,7 +189,7 @@ export default {
       this.form = {
         roomId: room.id,
         price: room.price,
-        roomCode: room.code,
+        roomCode: room.code
       }
 
       this.open = true;
@@ -222,8 +223,10 @@ export default {
 
     /** 提交按钮 */
     submitForm() {
+
       this.$refs["form"].validate(valid => {
         if(valid) {
+          this.form.totalPrice = this.form.price * this.form.quantity
           addOrder(this.form).then(response => {
             this.$modal.msgSuccess("下单成功！");
             this.open = false;

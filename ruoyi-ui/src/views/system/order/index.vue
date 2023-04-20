@@ -179,7 +179,7 @@
           <el-input v-model="form.roomCode" placeholder="请输入房型" />
         </el-form-item>
         <el-form-item label="预定房间数量" prop="quantity">
-          <el-input v-model="form.quantity" placeholder="请输入数量" />
+          <el-input-number v-model="form.quantity" :min=1></el-input-number>
         </el-form-item>
         <el-form-item label="用户名" prop="username">
           <el-input v-model="form.username" placeholder="请输入用户名" />
@@ -268,7 +268,8 @@ export default {
         orderDays: null
       },
       // 表单参数
-      form: {},
+      form: {
+      },
       // 表单校验
       rules: {
       }
@@ -354,6 +355,8 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
+            console.log(this.form)
+            this.form.totalPrice = this.form.price * this.form.quantity
             updateOrder(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
