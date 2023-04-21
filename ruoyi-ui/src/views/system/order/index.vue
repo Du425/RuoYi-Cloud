@@ -49,9 +49,9 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="创建时间" prop="creatTime">
+      <el-form-item label="创建时间" prop="createTime">
         <el-date-picker clearable
-          v-model="queryParams.creatTime"
+          v-model="queryParams.createTime"
           type="date"
           value-format="yyyy-MM-dd"
           placeholder="请选择创建时间">
@@ -133,9 +133,9 @@
       <el-table-column label="房间数量" align="center" prop="roomNumber" />
       <el-table-column label="入住日期" align="center" prop="checkinDate"/>
       <el-table-column label="离店日期" align="center" prop="checkoutDate"/>
-      <el-table-column label="创建时间" align="center" prop="creatTime" width="180">
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.creatTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="订单类型" align="center" prop="orderType" />
@@ -262,7 +262,7 @@ export default {
         totalPrice: null,
         roomType: null,
         roomNumber: null,
-        creatTime: null,
+        createTime: null,
         orderType: null,
         roomTypeId: null,
         orderDays: null
@@ -310,7 +310,7 @@ export default {
         roomNumber: null,
         checkinDate: null,
         checkoutDate: null,
-        creatTime: null,
+        createTime: null,
         updateTime: null,
         orderType: null,
         roomTypeId: null,

@@ -2,10 +2,11 @@
 
 
   <div class="app-container">
-
+    <div id="chart" style="width: 600px; height: 400px;"></div>
     <el-table v-loading="loading" :data="totalAccout " @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="总金额" align="center" prop="id" />
+
     </el-table>
 
     <el-table v-loading="loading" :data="orderList" @selection-change="handleSelectionChange">
@@ -16,9 +17,9 @@
       <el-table-column label="手机号" align="center" prop="phone" />
       <el-table-column label="房间数量" align="center" prop="roomNumber" />
       <el-table-column label="总价" align="center" prop="totalPrice" />
-      <el-table-column label="创建时间" align="center" prop="creatTime" width="180">
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.creatTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="订单入住时长" align="center" prop="orderDays" />
@@ -36,7 +37,15 @@
 </template>
 
 <script>
-import {listOrderFinance} from "@/api/system/finance"
+import {listOrderFinance} from "@/api/system/finance";
+import * as echarts from 'echarts/core';
+import { GridComponent } from 'echarts/components';
+import { LineChart } from 'echarts/charts';
+import { UniversalTransition } from 'echarts/features';
+import { CanvasRenderer } from 'echarts/renderers';
+
+echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition]);
+
 
 export default {
   name: "Finance",
@@ -77,7 +86,7 @@ export default {
         totalPrice: null,
         roomType: null,
         roomNumber: null,
-        creatTime: null,
+        createTime: null,
         orderType: null,
         roomTypeId: null,
         orderDays: null
@@ -92,13 +101,34 @@ export default {
   created() {
     this.getList();
   },
+  mounted() {
+    let myChart = echarts.init(document.getElementById("chart"))
+    let option = {
+      xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          type: 'line',
+          smooth: true
+        }
+      ]
+    };
+    myChart.setOption(option);
+  },
   methods: {
     /** 查询 列表 */
     getList() {
       this.loading = true;
       listOrderFinance(this.queryParams).then(response => {
-        this.orderList = response.rows;
-        this.total = response.total;
+        console.log(response)
+        this.orderList = response.data;
+        this.total = response.data.length;
         this.loading = false;
       });
     },

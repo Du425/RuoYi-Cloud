@@ -67,7 +67,7 @@ public class SysOrder extends BaseEntity
 
     /** $column.columnComment */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
-    private Date creatTime;
+    private Date createTime;
 
     /** $column.columnComment */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
@@ -182,12 +182,12 @@ public class SysOrder extends BaseEntity
         this.roomNumber = roomNumber;
     }
 
-    public Date getCreatTime() {
-        return creatTime;
+    public Date getcreateTime() {
+        return createTime;
     }
 
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
+    public void setcreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getOrderType() {

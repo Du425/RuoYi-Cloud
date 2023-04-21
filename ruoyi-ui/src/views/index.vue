@@ -213,7 +213,7 @@ export default {
         roomNumber: null,
         checkinDate: null,
         checkoutDate: null,
-        creatTime: null,
+        createTime: null,
         updateTime: null,
         orderType: null,
         orderDays: null

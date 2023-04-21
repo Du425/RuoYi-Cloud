@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="totalPrice"    column="total_price"    />
         <result property="roomType"    column="room_type"    />
         <result property="roomNumber"    column="room_number"    />
-        <result property="creatTime"    column=" create_time"    />
+        <result property="createTime"    column=" create_time"    />
         <result property="updateTime"    column="update_time"    />
         <result property="orderType"    column="order_type"    />
         <result property="roomTypeId"    column="room_type_id"    />
@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalPrice != null "> and total_price = #{totalPrice}</if>
             <if test="roomType != null  and roomType != ''"> and room_type = #{roomType}</if>
             <if test="roomNumber != null "> and room_number = #{roomNumber}</if>
-            <if test="creatTime != null "> and  create_time = #{creatTime}</if>
+            <if test="createTime != null "> and  create_time = #{createTime}</if>
             <if test="orderType != null  and orderType != ''"> and order_type = #{orderType}</if>
             <if test="roomTypeId != null "> and room_type_id = #{roomTypeId}</if>
             <if test="orderDays != null "> and order_days = #{orderDays}</if>
@@ -57,8 +57,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSysOrderVo"/>
         where id = #{id}
     </select>
-    <select id="queryOrderFinance" resultType="com.ruoyi.system.domain.SysOrder">
-        select id, room_id, username, phone, total_price, order_days, room_number, create_time, checkin_date, checkout_date from sys_order
+    <select id="queryOrderFinance" resultType="com.ruoyi.system.domain.SysOrder" resultMap="SysOrderResult">
+        <include refid="selectSysOrderVo"/>
         where status = '支付成功'
     </select>
 
@@ -77,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalPrice != null">total_price,</if>
             <if test="roomType != null">room_type,</if>
             <if test="roomNumber != null">room_number,</if>
-            <if test="creatTime != null"> create_time,</if>
+            <if test="createTime != null"> create_time,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="orderType != null">order_type,</if>
             <if test="roomTypeId != null">room_type_id,</if>
@@ -98,7 +98,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalPrice != null">#{totalPrice},</if>
             <if test="roomType != null">#{roomType},</if>
             <if test="roomNumber != null">#{roomNumber},</if>
-            <if test="creatTime != null">#{creatTime},</if>
+            <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="orderType != null">#{orderType},</if>
             <if test="roomTypeId != null">#{roomTypeId},</if>
@@ -122,7 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalPrice != null">total_price = #{totalPrice},</if>
             <if test="roomType != null">room_type = #{roomType},</if>
             <if test="roomNumber != null">room_number = #{roomNumber},</if>
-            <if test="creatTime != null"> create_time = #{creatTime},</if>
+            <if test="createTime != null"> create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="orderType != null">order_type = #{orderType},</if>
             <if test="roomTypeId != null">room_type_id = #{roomTypeId},</if>
