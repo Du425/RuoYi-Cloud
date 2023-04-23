@@ -1,7 +1,10 @@
 package com.ruoyi.system.service.impl;
 
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
-import com.ruoyi.common.core.utils.DateUtils;
+
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysOrderMapper;
@@ -53,6 +56,11 @@ public class SysOrderServiceImpl implements ISysOrderService
     @Override
     public int insertSysOrder(SysOrder sysOrder)
     {
+        Date date = new Date();
+        sysOrder.setCreateTime(date);
+        sysOrder.setStatus("支付成功");
+        long between = ChronoUnit.DAYS.between(sysOrder.getCheckinDate(), sysOrder.getCheckoutDate());
+        sysOrder.setOrderDays(between);
         return sysOrderMapper.insertSysOrder(sysOrder);
     }
 
@@ -65,7 +73,8 @@ public class SysOrderServiceImpl implements ISysOrderService
     @Override
     public int updateSysOrder(SysOrder sysOrder)
     {
-        sysOrder.setUpdateTime(DateUtils.getNowDate());
+        Date date = new Date();
+        sysOrder.setUpdateTime(date);
         return sysOrderMapper.updateSysOrder(sysOrder);
     }
 

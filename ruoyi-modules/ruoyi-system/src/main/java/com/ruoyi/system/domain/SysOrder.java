@@ -1,6 +1,7 @@
 package com.ruoyi.system.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -81,9 +82,9 @@ public class SysOrder extends BaseEntity
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private Long orderDays;
 
-    private Date checkinDate;
+    private LocalDate checkinDate;
 
-    private Date checkoutDate;
+    private LocalDate checkoutDate;
 
 
     public Long getId() {
@@ -182,12 +183,14 @@ public class SysOrder extends BaseEntity
         this.roomNumber = roomNumber;
     }
 
-    public Date getcreateTime() {
-        return createTime;
+    @Override
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public void setcreateTime(Date createTime) {
-        this.createTime = createTime;
+    @Override
+    public Date getCreateTime() {
+        return createTime;
     }
 
     public String getOrderType() {
@@ -214,19 +217,19 @@ public class SysOrder extends BaseEntity
         this.orderDays = orderDays;
     }
 
-    public Date getCheckinDate() {
+    public LocalDate getCheckinDate() {
         return checkinDate;
     }
 
-    public void setCheckinDate(Date checkinDate) {
+    public void setCheckinDate(LocalDate checkinDate) {
         this.checkinDate = checkinDate;
     }
 
-    public Date getCheckoutDate() {
+    public LocalDate getCheckoutDate() {
         return checkoutDate;
     }
 
-    public void setCheckoutDate(Date checkoutDate) {
+    public void setCheckoutDate(LocalDate checkoutDate) {
         this.checkoutDate = checkoutDate;
     }
 }

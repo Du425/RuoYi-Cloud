@@ -173,7 +173,7 @@
     <el-dialog :title="title" :visible.sync="open" :close-on-click-modal="false" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="房间Id" prop="roomId">
-          <el-input v-model="form.roomId" disabled />
+          <el-input v-model="form.roomId" placeholder="请输入房间Id" />
         </el-form-item>
         <el-form-item label="房型" prop="roomCode">
           <el-input v-model="form.roomCode" placeholder="请输入房型" />
@@ -191,7 +191,7 @@
           <el-input v-model="form.idCard" placeholder="请输入身份证" />
         </el-form-item>
         <el-form-item label="单价" prop="price">
-          <el-input v-model="form.price" disabled />
+          <el-input v-model="form.price" placeholder="请输入房间价格" />
         </el-form-item>
         <el-form-item label="总价" prop="totalPrice">
           <el-input v-model="form.price * form.quantity" placeholder="请输入总价" />

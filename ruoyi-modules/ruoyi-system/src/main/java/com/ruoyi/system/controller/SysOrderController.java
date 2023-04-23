@@ -1,7 +1,7 @@
 package com.ruoyi.system.controller;
 
+import java.util.Date;
 import java.util.List;
-import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -92,6 +92,19 @@ public class SysOrderController extends BaseController
         return toAjax(sysOrderService.updateSysOrder(sysOrder));
     }
 
+    /**
+     * 撤销订单【请填写功能名称】
+     */
+    @RequiresPermissions("system:order:edit")
+    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @PutMapping("/withdraw")
+    public AjaxResult withdraw(@RequestBody SysOrder sysOrder)
+    {
+        Date date = new Date();
+        sysOrder.setUpdateTime(date);
+        sysOrder.setStatus("取消订单");
+        return toAjax(sysOrderService.updateSysOrder(sysOrder));
+    }
     /**
      * 删除【请填写功能名称】
      */

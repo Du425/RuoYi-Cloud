@@ -1,12 +1,15 @@
 <template>
-
-
   <div class="app-container">
-    <div id="chart" style="width: 600px; height: 400px;"></div>
-    <el-table v-loading="loading" :data="totalAccout " @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="总金额" align="center" prop="id" />
 
+    <div class="chart-container"></div>
+    <el-table v-loading="loading" :data="dailyIncome">
+      <el-table-column label="日期" align="center" prop="date" />
+      <el-table-column label="每日进账" align="center" prop="income" />
+      <el-table-column label="总进账" align="center">
+        <template slot-scope="{ row }">
+          {{ dailyIncome.reduce((sum, item) => sum + item.income, 0) }}
+        </template>
+      </el-table-column>
     </el-table>
 
     <el-table v-loading="loading" :data="orderList" @selection-change="handleSelectionChange">
@@ -38,14 +41,7 @@
 
 <script>
 import {listOrderFinance} from "@/api/system/finance";
-import * as echarts from 'echarts/core';
-import { GridComponent } from 'echarts/components';
-import { LineChart } from 'echarts/charts';
-import { UniversalTransition } from 'echarts/features';
-import { CanvasRenderer } from 'echarts/renderers';
-
-echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition]);
-
+import echarts from 'echarts'
 
 export default {
   name: "Finance",
@@ -65,6 +61,8 @@ export default {
       total: 0,
       //  表格数据
       orderList: [],
+
+      chartData: [],
 
       totalAccout: null,
       // 弹出层标题
@@ -102,24 +100,56 @@ export default {
     this.getList();
   },
   mounted() {
-    let myChart = echarts.init(document.getElementById("chart"))
-    let option = {
+    // 假设dailyIncome是从服务器获取的数据
+    this.chartData = this.dailyIncome.map(item => [item.date, item.income])
+
+    // 初始化图表
+    const chart = echarts.init(document.querySelector('.chart-container'))
+
+    // 设置图表选项
+    const option = {
+      title: {
+        text: '每日进账折线图'
+      },
       xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        data: this.dailyIncome.map(item => item.date)
       },
       yAxis: {
         type: 'value'
       },
-      series: [
-        {
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
-          type: 'line',
-          smooth: true
+      series: [{
+        data: this.chartData,
+        type: 'line'
+      }]
+    }
+    // 渲染图表
+    chart.setOption(option)
+  },
+  computed: {
+    dailyIncome() {
+      let result = {};
+      for (let i = 0; i < this.orderList.length; i++) {
+        let order = this.orderList[i];
+        let createTime = new Date(order.createTime);
+        let days = Math.floor((new Date() - createTime) / 86400000) + 1;
+        let dailyPrice = order.totalPrice / days;
+        let dateStr = this.parseTime(createTime, "{y}-{m}-{d}");
+        if (result[dateStr]) {
+          result[dateStr] += dailyPrice;
+        } else {
+          result[dateStr] = dailyPrice;
         }
-      ]
-    };
-    myChart.setOption(option);
+      }
+      let data = [];
+      for (let date in result) {
+        data.push({
+          date: date,
+          income: result[date].toFixed(2)
+        });
+      }
+      return data;
+    }
   },
   methods: {
     /** 查询 列表 */
@@ -145,4 +175,13 @@ export default {
     },
   }
 };
+
 </script>
+<style>
+.chart-container {
+  width: 100%;
+  height: 500px;
+}
+</style>
+
+
