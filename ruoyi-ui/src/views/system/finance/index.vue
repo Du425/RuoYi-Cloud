@@ -1,15 +1,25 @@
 <template>
   <div class="app-container">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="选择日期" prop="roomId">
+        <el-date-picker clearable
+                        v-model="queryParams.createTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        @keyup.enter.native="handleQuery"
+                        placeholder="请选择订单创建时间">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+      </el-form-item>
+    </el-form>
 
-    <div class="chart-container"></div>
+    <div class="chart-container" id="lineChart"></div>
     <el-table v-loading="loading" :data="dailyIncome">
       <el-table-column label="日期" align="center" prop="date" />
       <el-table-column label="每日进账" align="center" prop="income" />
-      <el-table-column label="总进账" align="center">
-        <template slot-scope="{ row }">
-          {{ dailyIncome.reduce((sum, item) => sum + item.income, 0) }}
-        </template>
-      </el-table-column>
     </el-table>
 
     <el-table v-loading="loading" :data="orderList" @selection-change="handleSelectionChange">
@@ -41,12 +51,38 @@
 
 <script>
 import {listOrderFinance} from "@/api/system/finance";
-import echarts from 'echarts'
+import * as echarts from 'echarts/core';
+import { GridComponent } from 'echarts/components';
+import { LineChart } from 'echarts/charts';
+import { UniversalTransition } from 'echarts/features';
+import { CanvasRenderer } from 'echarts/renderers';
+import { TitleComponent } from 'echarts/components';
+
+
+echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TitleComponent]);
 
 export default {
   name: "Finance",
   data() {
     return {
+      // 设置图表选项
+      option: {
+        title: {
+          text: '每日进账折线图'
+        },
+        xAxis: {
+          type: 'category',
+          data: []
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [{
+          data: [820, 932],
+          type: 'line'
+        }]
+      },
+      dailyIncome: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -96,44 +132,56 @@ export default {
       }
     };
   },
-  created() {
+  mounted() {
     this.getList();
   },
-  mounted() {
-    // 假设dailyIncome是从服务器获取的数据
-    this.chartData = this.dailyIncome.map(item => [item.date, item.income])
-
-    // 初始化图表
-    const chart = echarts.init(document.querySelector('.chart-container'))
-
-    // 设置图表选项
-    const option = {
-      title: {
-        text: '每日进账折线图'
-      },
-      xAxis: {
-        type: 'category',
-        data: this.dailyIncome.map(item => item.date)
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        data: this.chartData,
+  methods: {
+    initLineChart() {
+      let myChart = echarts.init(document.getElementById("lineChart"))
+      this.option.series = [{
+        data: this.dailyIncome.map(item => item.income),
         type: 'line'
       }]
-    }
-    // 渲染图表
-    chart.setOption(option)
-  },
-  computed: {
-    dailyIncome() {
+      this.option.xAxis.data = this.dailyIncome.map(item => [item.date])
+      myChart.setOption(this.option)
+    },
+    /** 查询 列表 */
+    getList() {
+      this.loading = true;
+      listOrderFinance(this.queryParams).then(response => {
+        console.log(response)
+        this.orderList = response.data;
+        this.total = response.data.length;
+        this.loading = false;
+
+        // TODO
+        this.getDailyIncome();
+        this.initLineChart()
+      });
+    },
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.queryParams.pageNum = 1;
+      this.totalAccout = null;
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.handleQuery();
+    },
+    // 多选框选中数据
+    handleSelectionChange(selection) {
+      this.ids = selection.map(item => item.id)
+      this.single = selection.length!==1
+      this.multiple = !selection.length
+    },
+    getDailyIncome() {
       let result = {};
+      console.log(this.orderList)
       for (let i = 0; i < this.orderList.length; i++) {
         let order = this.orderList[i];
         let createTime = new Date(order.createTime);
-        let days = Math.floor((new Date() - createTime) / 86400000) + 1;
-        let dailyPrice = order.totalPrice / days;
+        let dailyPrice = order.totalPrice;
         let dateStr = this.parseTime(createTime, "{y}-{m}-{d}");
         if (result[dateStr]) {
           result[dateStr] += dailyPrice;
@@ -148,31 +196,8 @@ export default {
           income: result[date].toFixed(2)
         });
       }
-      return data;
+      this.dailyIncome = data
     }
-  },
-  methods: {
-    /** 查询 列表 */
-    getList() {
-      this.loading = true;
-      listOrderFinance(this.queryParams).then(response => {
-        console.log(response)
-        this.orderList = response.data;
-        this.total = response.data.length;
-        this.loading = false;
-      });
-    },
-    /** 搜索按钮操作 */
-    handleQuery() {
-      this.queryParams.pageNum = 1;
-      this.totalAccout = null;
-    },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
-      this.multiple = !selection.length
-    },
   }
 };
 

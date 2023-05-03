@@ -21,8 +21,8 @@
           <el-image :src="room.imgUrl" fit="contain"  ></el-image>
           <div>
             <el-tag>价格：{{ room.price }}</el-tag>
-            <h3>房型：{{ room.title }}</h3>
-            <h3>入住人数：{{ room.code}}</h3>
+            <h3>房型：{{ room.code }}</h3>
+            <h3>入住人数：{{ room.roomType}}</h3>
             <div class="bottom clearfix">
               <el-button type="primary"
                          class="button "
@@ -40,8 +40,8 @@
           <el-image :src="room.imgUrl" fit="contain"  ></el-image>
           <div>
             <el-tag>价格：{{ room.price }}</el-tag>
-            <h3>房型：{{ room.title }}</h3>
-            <h3>入住人数：{{ room.code}}</h3>
+            <h3>房型：{{ room.code }}</h3>
+            <h3>描述：{{ room.roomType}}</h3>
             <div class="bottom clearfix">
               <el-button type="primary"
                          class="button "
@@ -72,10 +72,10 @@
           <el-input v-model="form.username" placeholder="请输入用户名" />
         </el-form-item>
         <el-form-item label="手机号" prop="phone">
-          <el-input v-model="form.phone" placeholder="请输入手机号" />
+          <el-input v-model="form.phone" placeholder="请输入手机号"/>
         </el-form-item>
         <el-form-item label="身份证" prop="idCard">
-          <el-input v-model="form.idCard" placeholder="请输入身份证" />
+          <el-input v-model="form.idCard" placeholder="请输入身份证"/>
         </el-form-item>
         <el-form-item label="单价" prop="price">
           <el-input v-model="form.price" type="number" disabled />
@@ -103,6 +103,9 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
+<!--        <div style="background-image: url(D:\java-code\RuoYi-Cloud\ruoyi-ui\img\alipay.jpg); background-size: cover; display: inline-block; padding: 10px;">-->
+<!--          <el-button type="primary" @click="submitForm" style="background-color: transparent; border: none; color: #fff;">确 定</el-button>-->
+<!--        </div>-->
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -165,7 +168,34 @@ export default {
       },
       // 表单校验
       rules: {
-
+        idCard: [
+          { required: true, message: '请输入身份证号码', trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+              if (!reg.test(value)) {
+                callback(new Error('请输入正确的身份证号码'));
+              } else {
+                callback();
+              }
+            },
+            trigger: 'blur'
+          }
+        ],
+        phone: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              const reg = /^1(3\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\d|9[0-35-9])\d{8}$/;
+              if (!reg.test(value)) {
+                callback(new Error('请输入正确的手机号码'));
+              } else {
+                callback();
+              }
+            },
+            trigger: 'blur'
+          }
+        ]
       }
     };
   },

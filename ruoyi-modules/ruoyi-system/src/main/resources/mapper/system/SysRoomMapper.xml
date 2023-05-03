@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="title != null  and title != ''"> and title = #{title}</if>
             <if test="number != null "> and number = #{number}</if>
             <if test="roomStatus != null  and roomStatus != ''"> and room_status = #{roomStatus}</if>
-            <if test="roomType != null  and roomType != ''"> and room_type = #{roomType}</if>
+            <if test="roomType != null  and roomType != ''"> and room_Type = #{roomType}</if>
         </where>
     </select>
     

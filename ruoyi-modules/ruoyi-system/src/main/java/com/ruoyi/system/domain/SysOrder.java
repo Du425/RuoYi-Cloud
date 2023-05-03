@@ -9,6 +9,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 
+import javax.validation.constraints.Pattern;
+
 /**
  * 【请填写功能名称】对象 sys_order
  * 
@@ -44,10 +46,12 @@ public class SysOrder extends BaseEntity
 
     /** $column.columnComment */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Pattern(regexp = "/^1(3\\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\\d|9[0-35-9])\\d{8}$/")
     private String phone;
 
     /** $column.columnComment */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Pattern(regexp = "/^\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x)$/")
     private String idCard;
 
     /** $column.columnComment */
@@ -60,7 +64,7 @@ public class SysOrder extends BaseEntity
 
     /** $column.columnComment */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
-    private String roomType;
+    private String roomCode;
 
     /** $column.columnComment */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
@@ -167,12 +171,12 @@ public class SysOrder extends BaseEntity
         this.totalPrice = totalPrice;
     }
 
-    public String getRoomType() {
-        return roomType;
+    public String getRoomCode() {
+        return roomCode;
     }
 
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
+    public void setRoomCode(String roomCode) {
+        this.roomCode = roomCode;
     }
 
     public Long getRoomNumber() {

@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="idCard"    column="id_card"    />
         <result property="price"    column="price"    />
         <result property="totalPrice"    column="total_price"    />
-        <result property="roomType"    column="room_type"    />
+        <result property="roomCode"    column="room_code"    />
         <result property="roomNumber"    column="room_number"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSysOrderVo">
-        select id, room_id, user_id, quantity, status, username, phone, id_card, price, total_price, room_type, room_number,  create_time, update_time, order_type, room_type_id, order_days, checkin_date, checkout_date from sys_order
+        select id, room_id, user_id, quantity, status, username, phone, id_card, price, total_price, room_code, room_number,  create_time, update_time, order_type, room_type_id, order_days, checkin_date, checkout_date from sys_order
     </sql>
 
     <select id="selectSysOrderList" parameterType="SysOrder" resultMap="SysOrderResult">
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
             <if test="price != null "> and price = #{price}</if>
             <if test="totalPrice != null "> and total_price = #{totalPrice}</if>
-            <if test="roomType != null  and roomType != ''"> and room_type = #{roomType}</if>
+            <if test="roomCode != null  and roomCode != ''"> and room_code = #{roomCode}</if>
             <if test="roomNumber != null "> and room_number = #{roomNumber}</if>
             <if test="createTime != null "> and  create_time = #{createTime}</if>
             <if test="orderType != null  and orderType != ''"> and order_type = #{orderType}</if>
@@ -75,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="idCard != null">id_card,</if>
             <if test="price != null">price,</if>
             <if test="totalPrice != null">total_price,</if>
-            <if test="roomType != null">room_type,</if>
+            <if test="roomCode != null">room_code,</if>
             <if test="roomNumber != null">room_number,</if>
             <if test="createTime != null"> create_time,</if>
             <if test="updateTime != null">update_time,</if>
@@ -96,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="idCard != null">#{idCard},</if>
             <if test="price != null">#{price},</if>
             <if test="totalPrice != null">#{totalPrice},</if>
-            <if test="roomType != null">#{roomType},</if>
+            <if test="roomCode != null">#{roomCode},</if>
             <if test="roomNumber != null">#{roomNumber},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
@@ -120,7 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="idCard != null">id_card = #{idCard},</if>
             <if test="price != null">price = #{price},</if>
             <if test="totalPrice != null">total_price = #{totalPrice},</if>
-            <if test="roomType != null">room_type = #{roomType},</if>
+            <if test="roomCode != null">room_code = #{roomCode},</if>
             <if test="roomNumber != null">room_number = #{roomNumber},</if>
             <if test="createTime != null"> create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>

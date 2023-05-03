@@ -57,9 +57,9 @@
           placeholder="请选择创建时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="房间类型" prop="roomTypeId">
+      <el-form-item label="房间类型" prop="roomCode">
         <el-input
-          v-model="queryParams.roomTypeId"
+          v-model="queryParams.roomCode"
           placeholder="请输入房间类型"
           clearable
           @keyup.enter.native="handleQuery"
@@ -121,16 +121,16 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="订单号" align="center" prop="id" />
       <el-table-column label="房间Id" align="center" prop="roomId" />
-      <el-table-column label="用户Id" align="center" prop="userId" />
-      <el-table-column label="数量" align="center" prop="quantity" />
+<!--      <el-table-column label="用户Id" align="center" prop="userId" />-->
+      <el-table-column label="房间数量" align="center" prop="quantity" />
       <el-table-column label="订单状态" align="center" prop="status" />
       <el-table-column label="用户名" align="center" prop="username" />
       <el-table-column label="手机号" align="center" prop="phone" />
       <el-table-column label="身份证" align="center" prop="idCard" />
       <el-table-column label="单价" align="center" prop="price" />
       <el-table-column label="总价" align="center" prop="totalPrice" />
-      <el-table-column label="房间类型" align="center" prop="roomType" />
-      <el-table-column label="房间数量" align="center" prop="roomNumber" />
+      <el-table-column label="房间类型" align="center" prop="roomCode" />
+<!--      <el-table-column label="房间数量" align="center" prop="roomNumber" />-->
       <el-table-column label="入住日期" align="center" prop="checkinDate"/>
       <el-table-column label="离店日期" align="center" prop="checkoutDate"/>
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
@@ -138,8 +138,7 @@
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="订单类型" align="center" prop="orderType" />
-      <el-table-column label="房间类型Id" align="center" prop="roomTypeId" />
+<!--      <el-table-column label="订单类型" align="center" prop="orderType" />-->
       <el-table-column label="订单入住时长" align="center" prop="orderDays" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -212,7 +211,20 @@
                           placeholder="请选择离店时间">
           </el-date-picker>
         </el-form-item>
-
+        <el-form-item label="订单状态" prop="status">
+          <el-select v-model="form.status" placeholder="请选择订单状态" >
+<!--          <el-option-->
+<!--            v-for="item in options"-->
+<!--            :key="item.value"-->
+<!--            :label="item.label"-->
+<!--            :value="item.value">-->
+<!--          </el-option>-->
+            <el-option label="支付成功" value="支付成功"></el-option>
+            <el-option label="入住成功" value="入住成功"></el-option>
+            <el-option label="已离店" value="已离店"></el-option>
+            <el-option label="订单取消" value="订单取消"></el-option>
+          </el-select>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -247,6 +259,19 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // options: [{
+      //   value: '支付成功',
+      //   label: '支付成功'
+      // }, {
+      //   value: '已入住',
+      //   label: '已入住'
+      // }, {
+      //   value: '已离店',
+      //   label: '已离店'
+      // }, {
+      //   value: '订单取消',
+      //   label: '订单取消'
+      // }],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -255,12 +280,12 @@ export default {
         userId: null,
         quantity: null,
         status: null,
+        roomCode: null,
         username: null,
         phone: null,
         idCard: null,
         price: null,
         totalPrice: null,
-        roomType: null,
         roomNumber: null,
         createTime: null,
         orderType: null,
@@ -272,6 +297,34 @@ export default {
       },
       // 表单校验
       rules: {
+        idCard: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+              if (!reg.test(value)) {
+                callback(new Error('请输入正确的身份证号码'));
+              } else {
+                callback();
+              }
+            },
+            trigger: 'blur'
+          }
+        ],
+        phone: [
+          { required: true, message: '请输入身份证', trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              const reg = /^1(3\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\d|9[0-35-9])\d{8}$/;
+              if (!reg.test(value)) {
+                callback(new Error('请输入正确的手机号码'));
+              } else {
+                callback();
+              }
+            },
+            trigger: 'blur'
+          }
+        ]
       }
     };
   },
@@ -306,7 +359,7 @@ export default {
         idCard: null,
         price: null,
         totalPrice: null,
-        roomType: null,
+        roomCode: null,
         roomNumber: null,
         checkinDate: null,
         checkoutDate: null,

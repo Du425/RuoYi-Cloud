@@ -1,9 +1,15 @@
 package com.ruoyi.system.controller;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.system.domain.SysRoom;
+import com.ruoyi.system.service.ISysRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,6 +41,12 @@ public class SysOrderController extends BaseController
     @Autowired
     private ISysOrderService sysOrderService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private ISysRoomService sysRoomService;
+
     /**
      * 查询【请填写功能名称】列表
      */
@@ -51,13 +63,13 @@ public class SysOrderController extends BaseController
      * 导出【请填写功能名称】列表
      */
     @RequiresPermissions("system:order:export")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "订单导出", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysOrder sysOrder)
     {
         List<SysOrder> list = sysOrderService.selectSysOrderList(sysOrder);
         ExcelUtil<SysOrder> util = new ExcelUtil<SysOrder>(SysOrder.class);
-        util.exportExcel(response, list, "【请填写功能名称】数据");
+        util.exportExcel(response, list, "订单导出数据");
     }
 
     /**
@@ -74,10 +86,24 @@ public class SysOrderController extends BaseController
      * 新增【请填写功能名称】
      */
     @RequiresPermissions("system:order:add")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "订单新增", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysOrder sysOrder)
     {
+//        Integer roomId = sysOrder.getRoomId().intValue();
+//        LocalDate checkinDate = sysOrder.getCheckinDate();
+//        LocalDate checkoutDate = sysOrder.getCheckoutDate();
+//        int days = (int)ChronoUnit.DAYS.between(checkinDate, checkoutDate);
+//
+//        for (LocalDate date = checkinDate; date.isBefore(checkoutDate); date = date.plusDays(1)) {
+//            String key = "room:" + roomId + ":" + date.toString();
+//            int available = (int) redisTemplate.opsForHash().get("room:availability", key);
+//            if (available <= 0) {
+//                return AjaxResult.error("房间已被订完！");
+//            }
+//            redisTemplate.opsForHash().increment("room:availability", key, -1);
+//        }
+
         return toAjax(sysOrderService.insertSysOrder(sysOrder));
     }
 
@@ -85,7 +111,7 @@ public class SysOrderController extends BaseController
      * 修改【请填写功能名称】
      */
     @RequiresPermissions("system:order:edit")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "订单修改", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SysOrder sysOrder)
     {
@@ -95,8 +121,8 @@ public class SysOrderController extends BaseController
     /**
      * 撤销订单【请填写功能名称】
      */
-    @RequiresPermissions("system:order:edit")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @RequiresPermissions("system:order:withdraw")
+    @Log(title = "订单撤销", businessType = BusinessType.UPDATE)
     @PutMapping("/withdraw")
     public AjaxResult withdraw(@RequestBody SysOrder sysOrder)
     {
@@ -109,7 +135,7 @@ public class SysOrderController extends BaseController
      * 删除【请填写功能名称】
      */
     @RequiresPermissions("system:order:remove")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "订单删除", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {

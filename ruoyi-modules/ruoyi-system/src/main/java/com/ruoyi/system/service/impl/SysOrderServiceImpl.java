@@ -4,8 +4,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
+import com.ruoyi.system.domain.SysRoom;
+import com.ruoyi.system.mapper.SysRoomMapper;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysOrderMapper;
 import com.ruoyi.system.domain.SysOrder;
