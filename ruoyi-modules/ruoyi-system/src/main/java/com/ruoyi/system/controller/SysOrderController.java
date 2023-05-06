@@ -73,6 +73,19 @@ public class SysOrderController extends BaseController
     }
 
     /**
+     * 导出【请填写功能名称】列表
+     */
+    @RequiresPermissions("system:order:finance:export")
+    @Log(title = "订单导出", businessType = BusinessType.EXPORT)
+    @PostMapping("finance/export")
+    public void exportFinance(HttpServletResponse response, SysOrder sysOrder)
+    {
+        List<SysOrder> list = sysOrderService.selectSysOrderList(sysOrder);
+        ExcelUtil<SysOrder> util = new ExcelUtil<SysOrder>(SysOrder.class);
+        util.exportExcel(response, list, "订单导出数据");
+    }
+
+    /**
      * 获取【请填写功能名称】详细信息
      */
     @RequiresPermissions("system:order:query")

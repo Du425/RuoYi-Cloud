@@ -13,15 +13,16 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * @author ruoyi
  * @date 2023-04-12
  */
-public class SysRecord extends BaseEntity
+public class
+
+SysRecord extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    @Excel(name = "ID")
     private Long id;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "描述")
     private String desc;
 
     /** 用户 */
@@ -32,8 +33,7 @@ public class SysRecord extends BaseEntity
     @Excel(name = "订单操作类型")
     private String type;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "记录日期")
     private Date recordDate;
 
     public void setId(Long id) 

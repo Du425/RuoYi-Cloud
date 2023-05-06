@@ -27,6 +27,8 @@ public interface ISysOrderService
      */
     public List<SysOrder> selectSysOrderList(SysOrder sysOrder);
 
+    public List<SysOrder> selectSysOrderFinanceList(SysOrder sysOrder);
+
     /**
      * 新增【请填写功能名称】
      * 

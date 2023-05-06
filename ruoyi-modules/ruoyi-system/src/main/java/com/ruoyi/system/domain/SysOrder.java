@@ -22,18 +22,19 @@ public class SysOrder extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** $column.columnComment */
+    @Excel(name = "订单号")
     private Long id;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "房间ID")
     private Long roomId;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "用户ID")
     private Long userId;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "${comment}")
     private Long quantity;
 
     /** 订单状态 */
@@ -41,53 +42,55 @@ public class SysOrder extends BaseEntity
     private String status;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "用户名")
     private String username;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "电话号码")
     @Pattern(regexp = "/^1(3\\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\\d|9[0-35-9])\\d{8}$/")
     private String phone;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "身份证")
     @Pattern(regexp = "/^\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x)$/")
     private String idCard;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "价格")
     private BigDecimal price;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "总价")
     private BigDecimal totalPrice;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "房间型号")
     private String roomCode;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "房间数量")
     private Long roomNumber;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "创建时间")
     private Date createTime;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "订单类型")
     private String orderType;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "订单类型ID")
     private Long roomTypeId;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "订单时长")
     private Long orderDays;
 
+    @Excel(name = "入住日期")
     private LocalDate checkinDate;
 
+    @Excel(name = "离店日期")
     private LocalDate checkoutDate;
 
 

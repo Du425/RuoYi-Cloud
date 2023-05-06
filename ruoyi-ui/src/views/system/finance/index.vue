@@ -15,6 +15,20 @@
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['system:order:finance:export']"
+        >导出</el-button>
+      </el-col>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
+    </el-row>
+
 
     <div class="chart-container" id="lineChart"></div>
     <el-table v-loading="loading" :data="dailyIncome">
@@ -168,6 +182,12 @@ export default {
     resetQuery() {
       this.resetForm("queryForm");
       this.handleQuery();
+    },
+    /** 导出按钮操作 */
+    handleExport() {
+      this.download('system/order/finance/export', {
+        ...this.queryParams
+      }, `order_${new Date().getTime()}.xlsx`)
     },
     // 多选框选中数据
     handleSelectionChange(selection) {

@@ -50,6 +50,12 @@ public class SysOrderServiceImpl implements ISysOrderService
         return sysOrderMapper.selectSysOrderList(sysOrder);
     }
 
+    @Override
+    public List<SysOrder> selectSysOrderFinanceList(SysOrder sysOrder)
+    {
+        return sysOrderMapper.selectSysOrderFinanceList(sysOrder);
+    }
+
     /**
      * 新增【请填写功能名称】
      * 

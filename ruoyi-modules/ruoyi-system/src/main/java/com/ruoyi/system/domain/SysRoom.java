@@ -17,10 +17,11 @@ public class SysRoom extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** $column.columnComment */
+    @Excel(name = "房间ID")
     private Integer id;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "单价")
     private BigDecimal price;
 
     /** 房型 */
@@ -28,7 +29,7 @@ public class SysRoom extends BaseEntity
     private String code;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "标题")
     private String title;
 
     /** 房间数量 */
@@ -36,6 +37,7 @@ public class SysRoom extends BaseEntity
     private Long number;
 
     /** $column.columnComment */
+    @Excel(name = "图片URL")
     private String imgUrl;
 
     /** 在售、停售 */
@@ -43,7 +45,7 @@ public class SysRoom extends BaseEntity
     private String roomStatus;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    @Excel(name = "房间类型")
     private String roomType;
 
     public Integer getId() {
