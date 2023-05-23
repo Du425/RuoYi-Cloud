@@ -38,6 +38,11 @@ public class SysOrderServiceImpl implements ISysOrderService
         return sysOrderMapper.selectSysOrderById(id);
     }
 
+    @Override
+    public List<SysOrder> selectSysOrderByRoleId(Long id) {
+        return sysOrderMapper.selectSysOrderByRoleId(id);
+    }
+
     /**
      * 查询【请填写功能名称】列表
      * 
@@ -48,6 +53,11 @@ public class SysOrderServiceImpl implements ISysOrderService
     public List<SysOrder> selectSysOrderList(SysOrder sysOrder)
     {
         return sysOrderMapper.selectSysOrderList(sysOrder);
+    }
+
+    @Override
+    public List<SysOrder> selectSysOrderList() {
+        return sysOrderMapper.selectSysOrderList();
     }
 
     @Override

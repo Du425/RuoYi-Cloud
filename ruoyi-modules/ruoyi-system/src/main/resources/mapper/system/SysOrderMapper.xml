@@ -30,6 +30,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, room_id, user_id, quantity, status, username, phone, id_card, price, total_price, room_code, room_number,  create_time, update_time, order_type, room_type_id, order_days, checkin_date, checkout_date from sys_order
     </sql>
 
+    <sql id="selectSysOrderFinanceVo">
+        select id, room_id, user_id, quantity, status, username, phone,  total_price, room_code, create_time, order_days, checkin_date, checkout_date from sys_order
+    </sql>
+
     <select id="selectSysOrderList" parameterType="SysOrder" resultMap="SysOrderResult">
         <include refid="selectSysOrderVo"/>
         <where>  
@@ -54,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectSysOrderFinanceList" parameterType="SysOrder" resultMap="SysOrderResult">
-        <include refid="selectSysOrderVo"/>
+        <include refid="selectSysOrderFinanceVo"/>
         <where>
             <if test="roomId != null "> and room_id = #{roomId}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
@@ -75,6 +79,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="queryOrderFinance" resultType="com.ruoyi.system.domain.SysOrder" resultMap="SysOrderResult">
         <include refid="selectSysOrderVo"/>
         where status in ('支付成功', '已入住', '已离店')
+    </select>
+    <select id="selectSysOrderByRoleId" resultType="com.ruoyi.system.domain.SysOrder">
+        <include refid="selectSysOrderVo"/>
+        where user_id = #{userId}
     </select>
 
     <insert id="insertSysOrder" parameterType="SysOrder">

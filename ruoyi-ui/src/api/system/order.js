@@ -9,6 +9,15 @@ export function listOrder(query) {
   })
 }
 
+// 查询 列表
+export function listOrderRole() {
+  return request({
+    url: '/system/order/role',
+    method: 'get'
+  })
+}
+
+
 // 查询 详细
 export function getOrder(id) {
   return request({

@@ -1,18 +1,37 @@
 <template>
   <div class="app-container home">
 
-    <el-form>
-      <el-form-item label="请选择入住时间">
-        <el-date-picker
-          v-model="dateRange"
-          style="width: 240px"
-          value-format="yyyy-MM-dd"
-          type="daterange"
-          range-separator="--"
-          start-placeholder="入住日期"
-          end-placeholder="离店日期"
-        ></el-date-picker>
-      </el-form-item>
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" >
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="请选择入住时间">
+            <el-date-picker
+              v-model="dateRange"
+              style="width: 240px"
+              value-format="yyyy-MM-dd"
+              type="daterange"
+              range-separator="--"
+              start-placeholder="入住日期"
+              end-placeholder="离店日期"
+            ></el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item labl="房间型号挑选">
+            <el-select v-model="queryParams.code" placeholder="请选择房间型号" @change="getList">
+              <el-option label="大床房" value="惠选大床房"></el-option>
+              <el-option label="双床房" value="惠选双床房"></el-option>
+              <el-option label="套房" value="豪华套房"></el-option>
+              <el-option label="钟点房" value="钟点房"></el-option>
+              <el-option label="   " value=""></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
     </el-form>
 
     <el-row>
@@ -68,8 +87,8 @@
         <el-form-item label="预定房间数量" prop="quantity">
           <el-input-number v-model="form.quantity" :min=1></el-input-number>
         </el-form-item>
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="form.username" placeholder="请输入用户名" />
+        <el-form-item label="住客姓名" prop="username">
+          <el-input v-model="form.username" placeholder="请输入住客姓名" />
         </el-form-item>
         <el-form-item label="手机号" prop="phone">
           <el-input v-model="form.phone" placeholder="请输入手机号"/>
@@ -103,9 +122,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
-<!--        <div style="background-image: url(D:\java-code\RuoYi-Cloud\ruoyi-ui\img\alipay.jpg); background-size: cover; display: inline-block; padding: 10px;">-->
-<!--          <el-button type="primary" @click="submitForm" style="background-color: transparent; border: none; color: #fff;">确 定</el-button>-->
-<!--        </div>-->
+
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -203,7 +220,7 @@ export default {
     this.getList()
   },
   methods: {
-    /** 查询 列表 */
+
     getList() {
       this.loading = true;
       console.log("call")
@@ -240,6 +257,7 @@ export default {
         price: null,
         totalPrice: null,
         roomType: null,
+        code: null,
         roomNumber: null,
         checkinDate: null,
         checkoutDate: null,
@@ -251,16 +269,39 @@ export default {
       this.resetForm("form");
     },
 
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.queryParams.pageNum = 1;
+      this.getList();
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.handleQuery();
+    },
     /** 提交按钮 */
     submitForm() {
-
       this.$refs["form"].validate(valid => {
         if(valid) {
           this.form.totalPrice = this.form.price * this.form.quantity
-          addOrder(this.form).then(response => {
-            this.$modal.msgSuccess("下单成功！");
-            this.open = false;
-            this.getList();
+          this.$confirm('<img src="http://127.0.0.1:9300/statics/2023/05/15/alipay_20230515144602A001.jpg" style= "width: 100%">', '收款码', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            dangerouslyUseHTMLString: true
+          }).then(() => {
+            addOrder(this.form).then(response => {
+              this.open = false;
+              this.getList();
+            });
+            this.$message({
+              type: 'success',
+              message: '下单成功!'
+            });
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消订单'
+            });
           });
         }
       });

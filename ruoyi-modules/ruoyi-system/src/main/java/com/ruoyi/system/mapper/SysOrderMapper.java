@@ -19,6 +19,7 @@ public interface SysOrderMapper
      */
     public SysOrder selectSysOrderById(Long id);
 
+    public List<SysOrder> selectSysOrderByRoleId(Long id);
     /**
      * 查询【请填写功能名称】列表
      * 
@@ -26,6 +27,8 @@ public interface SysOrderMapper
      * @return 【请填写功能名称】集合
      */
     public List<SysOrder> selectSysOrderList(SysOrder sysOrder);
+
+    public List<SysOrder> selectSysOrderList();
 
     public List<SysOrder> selectSysOrderFinanceList(SysOrder sysOrder);
 

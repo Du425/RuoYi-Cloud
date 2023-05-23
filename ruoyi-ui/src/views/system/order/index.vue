@@ -213,12 +213,6 @@
         </el-form-item>
         <el-form-item label="订单状态" prop="status">
           <el-select v-model="form.status" placeholder="请选择订单状态" >
-<!--          <el-option-->
-<!--            v-for="item in options"-->
-<!--            :key="item.value"-->
-<!--            :label="item.label"-->
-<!--            :value="item.value">-->
-<!--          </el-option>-->
             <el-option label="支付成功" value="支付成功"></el-option>
             <el-option label="入住成功" value="入住成功"></el-option>
             <el-option label="已离店" value="已离店"></el-option>
@@ -235,7 +229,7 @@
 </template>
 
 <script>
-import { listOrder, getOrder, delOrder, addOrder, updateOrder } from "@/api/system/order";
+import { listOrder, getOrder, delOrder, addOrder, updateOrder , listOrderRole } from "@/api/system/order";
 
 export default {
   name: "Order",
@@ -335,7 +329,7 @@ export default {
     /** 查询 列表 */
     getList() {
       this.loading = true;
-      listOrder(this.queryParams).then(response => {
+      listOrderRole().then(response => {
         this.orderList = response.rows;
         this.total = response.total;
         this.loading = false;

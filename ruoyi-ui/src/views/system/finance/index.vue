@@ -187,7 +187,7 @@ export default {
     handleExport() {
       this.download('system/order/finance/export', {
         ...this.queryParams
-      }, `order_${new Date().getTime()}.xlsx`)
+      }, `finance_${new Date().getTime()}.xlsx`)
     },
     // 多选框选中数据
     handleSelectionChange(selection) {

@@ -146,7 +146,11 @@
           <ImgUpload v-model="form.imgUrl"></ImgUpload>
         </el-form-item>
         <el-form-item label="房间状态" prop="roomStatus">
-          <el-input v-model="form.roomStatus" placeholder="请输入房间状态" />
+          <el-select v-model="form.roomStatus" placeholder="请选择订单状态" >
+            <el-option label="在售" value="在售"></el-option>
+            <el-option label="停售" value="停售"></el-option>
+            <el-option label="装修中" value="装修中"></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -34,7 +34,7 @@ public class SysOrder extends BaseEntity
     private Long userId;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}")
+    @Excel(name = "数量")
     private Long quantity;
 
     /** 订单状态 */

@@ -6,8 +6,10 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.domain.SysRoom;
 import com.ruoyi.system.service.ISysRoomService;
+import com.ruoyi.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,12 +43,6 @@ public class SysOrderController extends BaseController
     @Autowired
     private ISysOrderService sysOrderService;
 
-    @Autowired
-    private RedisTemplate redisTemplate;
-
-    @Autowired
-    private ISysRoomService sysRoomService;
-
     /**
      * 查询【请填写功能名称】列表
      */
@@ -59,6 +55,20 @@ public class SysOrderController extends BaseController
         return getDataTable(list);
     }
 
+    /**
+     * 获取【请填写功能名称】详细信息
+     */
+    @RequiresPermissions("system:order:query:role")
+    @GetMapping(value = "role")
+    public TableDataInfo getInfoByRoleId()
+    {
+        Long userId = SecurityUtils.getUserId();
+        if (userId == 1) {
+            return getDataTable(sysOrderService.selectSysOrderList());
+        }
+        List<SysOrder> list = sysOrderService.selectSysOrderByRoleId(userId);
+        return getDataTable(list);
+    }
     /**
      * 导出【请填写功能名称】列表
      */
@@ -80,7 +90,7 @@ public class SysOrderController extends BaseController
     @PostMapping("finance/export")
     public void exportFinance(HttpServletResponse response, SysOrder sysOrder)
     {
-        List<SysOrder> list = sysOrderService.selectSysOrderList(sysOrder);
+        List<SysOrder> list = sysOrderService.selectSysOrderFinanceList(sysOrder);
         ExcelUtil<SysOrder> util = new ExcelUtil<SysOrder>(SysOrder.class);
         util.exportExcel(response, list, "订单导出数据");
     }
@@ -103,20 +113,6 @@ public class SysOrderController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SysOrder sysOrder)
     {
-//        Integer roomId = sysOrder.getRoomId().intValue();
-//        LocalDate checkinDate = sysOrder.getCheckinDate();
-//        LocalDate checkoutDate = sysOrder.getCheckoutDate();
-//        int days = (int)ChronoUnit.DAYS.between(checkinDate, checkoutDate);
-//
-//        for (LocalDate date = checkinDate; date.isBefore(checkoutDate); date = date.plusDays(1)) {
-//            String key = "room:" + roomId + ":" + date.toString();
-//            int available = (int) redisTemplate.opsForHash().get("room:availability", key);
-//            if (available <= 0) {
-//                return AjaxResult.error("房间已被订完！");
-//            }
-//            redisTemplate.opsForHash().increment("room:availability", key, -1);
-//        }
-
         return toAjax(sysOrderService.insertSysOrder(sysOrder));
     }
 
