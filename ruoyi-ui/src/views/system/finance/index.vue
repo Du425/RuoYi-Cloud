@@ -71,6 +71,7 @@ import { LineChart } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import { TitleComponent } from 'echarts/components';
+import { listOrder, getOrder, delOrder, addOrder, updateOrder , listOrderRole } from "@/api/system/order";
 
 
 echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TitleComponent]);
@@ -151,12 +152,19 @@ export default {
   },
   methods: {
     initLineChart() {
-      let myChart = echarts.init(document.getElementById("lineChart"))
+      let myChart = echarts.init(document.getElementById("lineChart"));
       this.option.series = [{
-        data: this.dailyIncome.map(item => item.income),
+        data: this.dailyIncome.map(item => ({
+          value: item.income,
+          label: {
+            show: true,
+            formatter: '{c}',
+            position: "top"
+          }
+        })),
         type: 'line'
-      }]
-      this.option.xAxis.data = this.dailyIncome.map(item => [item.date])
+      }];
+      this.option.xAxis.data = this.dailyIncome.map(item => item.date)
       myChart.setOption(this.option)
     },
     /** 查询 列表 */

@@ -25,14 +25,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="房间数量" prop="number">
-        <el-input
-          v-model="queryParams.number"
-          placeholder="请输入房间数量"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -90,7 +82,7 @@
       <el-table-column label="ID" align="center" prop="id" />
       <el-table-column label="价格" align="center" prop="price" />
       <el-table-column label="房型" align="center" prop="code" />
-      <el-table-column label="标题" align="center" prop="title" />
+<!--      <el-table-column label="标题" align="center" prop="title" />-->
       <el-table-column label="房间数量" align="center" prop="number" />
       <el-table-column label="展示图片" align="center" prop="imgUrl">
         <template slot-scope="scope">

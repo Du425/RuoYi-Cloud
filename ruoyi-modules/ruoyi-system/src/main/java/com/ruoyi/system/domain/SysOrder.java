@@ -239,4 +239,6 @@ public class SysOrder extends BaseEntity
     public void setCheckoutDate(LocalDate checkoutDate) {
         this.checkoutDate = checkoutDate;
     }
+
+
 }

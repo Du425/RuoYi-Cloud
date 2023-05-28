@@ -7,6 +7,7 @@
           <el-form-item label="请选择入住时间">
             <el-date-picker
               v-model="dateRange"
+              :picker-options="pickerOptions"
               style="width: 240px"
               value-format="yyyy-MM-dd"
               type="daterange"
@@ -19,11 +20,10 @@
         <el-col :span="12">
           <el-form-item labl="房间型号挑选">
             <el-select v-model="queryParams.code" placeholder="请选择房间型号" @change="getList">
-              <el-option label="大床房" value="惠选大床房"></el-option>
-              <el-option label="双床房" value="惠选双床房"></el-option>
-              <el-option label="套房" value="豪华套房"></el-option>
-              <el-option label="钟点房" value="钟点房"></el-option>
-              <el-option label="   " value=""></el-option>
+              <el-option label="大床房" value="大床房" :filterable="true" :filter-method="filterMethod"></el-option>
+              <el-option label="双床房" value="双床房" :filterable="true" :filter-method="filterMethod"></el-option>
+              <el-option label="套房" value="套房" :filterable="true" :filter-method="filterMethod"></el-option>
+              <el-option label="钟点房" value="钟点房" :filterable="true" :filter-method="filterMethod"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -82,7 +82,7 @@
           <el-input v-model="form.roomId" disabled />
         </el-form-item>
         <el-form-item label="房型" prop="roomCode">
-          <el-input v-model="form.roomCode" placeholder="请输入房型" />
+          <el-input v-model="form.roomCode"  diabled/>
         </el-form-item>
         <el-form-item label="预定房间数量" prop="quantity">
           <el-input-number v-model="form.quantity" :min=1></el-input-number>
@@ -126,7 +126,6 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-
   </div>
 </template>
 
@@ -157,7 +156,14 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      dateRange: [],
+      dateRange: '',
+      pickerOptions: {
+        disabledDate(time) {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0); // 设置为当天的开始时间
+          return time.getTime() < today.getTime(); // 禁用过去的日期
+        }
+      },
       //  表格数据
       roomList: [],
       // 弹出层标题
@@ -181,7 +187,9 @@ export default {
         price: "",
         roomCode:"",
         totalPrice: "",
-        quantity: 1
+        quantity: 1,
+        checkoutDate:"",
+        checkinDate:""
       },
       // 表单校验
       rules: {
@@ -236,11 +244,14 @@ export default {
       this.form = {
         roomId: room.id,
         price: room.price,
-        roomCode: room.code
+        roomCode: room.code,
       }
 
       this.open = true;
       this.title = "预定";
+    },
+    filterMethod(value, option) {
+      return option.label.indexOf(value) !== -1; // 进行字符串的模糊匹配
     },
     // 表单重置
     reset() {
@@ -276,8 +287,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.resetForm("queryForm");
-      this.handleQuery();
+      this.queryParams = "";
+      this.getList();
     },
     /** 提交按钮 */
     submitForm() {

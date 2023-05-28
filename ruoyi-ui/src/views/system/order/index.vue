@@ -9,14 +9,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="用户Id" prop="userId">
-        <el-input
-          v-model="queryParams.userId"
-          placeholder="用户Id"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="用户名" prop="username">
         <el-input
           v-model="queryParams.username"
@@ -37,14 +29,6 @@
         <el-input
           v-model="queryParams.idCard"
           placeholder="请输入用户身份证"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="单价" prop="price">
-        <el-input
-          v-model="queryParams.price"
-          placeholder="请输入单价"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -121,7 +105,6 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="订单号" align="center" prop="id" />
       <el-table-column label="房间Id" align="center" prop="roomId" />
-<!--      <el-table-column label="用户Id" align="center" prop="userId" />-->
       <el-table-column label="房间数量" align="center" prop="quantity" />
       <el-table-column label="订单状态" align="center" prop="status" />
       <el-table-column label="用户名" align="center" prop="username" />
@@ -130,7 +113,6 @@
       <el-table-column label="单价" align="center" prop="price" />
       <el-table-column label="总价" align="center" prop="totalPrice" />
       <el-table-column label="房间类型" align="center" prop="roomCode" />
-<!--      <el-table-column label="房间数量" align="center" prop="roomNumber" />-->
       <el-table-column label="入住日期" align="center" prop="checkinDate"/>
       <el-table-column label="离店日期" align="center" prop="checkoutDate"/>
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
@@ -138,7 +120,6 @@
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-<!--      <el-table-column label="订单类型" align="center" prop="orderType" />-->
       <el-table-column label="订单入住时长" align="center" prop="orderDays" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -193,6 +174,7 @@
           <el-input v-model="form.price" placeholder="请输入房间价格" />
         </el-form-item>
         <el-form-item label="总价" prop="totalPrice">
+<!--          订单天数，房间数量都要计算-->
           <el-input v-model="form.price * form.quantity" placeholder="请输入总价" />
         </el-form-item>
         <el-form-item label="入住日期" prop="checkinDate">
@@ -253,19 +235,6 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
-      // options: [{
-      //   value: '支付成功',
-      //   label: '支付成功'
-      // }, {
-      //   value: '已入住',
-      //   label: '已入住'
-      // }, {
-      //   value: '已离店',
-      //   label: '已离店'
-      // }, {
-      //   value: '订单取消',
-      //   label: '订单取消'
-      // }],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -323,13 +292,21 @@ export default {
     };
   },
   created() {
-    this.getList();
+    this.getListByRole();
   },
   methods: {
     /** 查询 列表 */
-    getList() {
+    getListByRole() {
       this.loading = true;
       listOrderRole().then(response => {
+        this.orderList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      });
+    },
+    getList() {
+      this.loading = true;
+      listOrder(this.queryParams).then(response => {
         this.orderList = response.rows;
         this.total = response.total;
         this.loading = false;

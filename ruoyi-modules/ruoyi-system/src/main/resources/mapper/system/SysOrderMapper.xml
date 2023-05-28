@@ -80,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSysOrderVo"/>
         where status in ('支付成功', '已入住', '已离店')
     </select>
-    <select id="selectSysOrderByRoleId" resultType="com.ruoyi.system.domain.SysOrder">
+    <select id="selectSysOrderByRoleId" resultType="com.ruoyi.system.domain.SysOrder" resultMap="SysOrderResult">
         <include refid="selectSysOrderVo"/>
         where user_id = #{userId}
     </select>

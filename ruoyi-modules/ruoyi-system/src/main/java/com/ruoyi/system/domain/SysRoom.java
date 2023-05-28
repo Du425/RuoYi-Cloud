@@ -6,6 +6,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 
+import javax.validation.constraints.Pattern;
+
 /**
  * 【请填写功能名称】对象 sys_room
  * 
@@ -47,6 +49,9 @@ public class SysRoom extends BaseEntity
     /** $column.columnComment */
     @Excel(name = "房间类型")
     private String roomType;
+
+    @Pattern(regexp = "^.{6,}$")
+    private String password;
 
     public Integer getId() {
         return id;
