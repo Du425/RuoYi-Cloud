@@ -85,7 +85,7 @@
           <el-input v-model="form.roomCode"  diabled/>
         </el-form-item>
         <el-form-item label="预定房间数量" prop="quantity">
-          <el-input-number v-model="form.quantity" :min=1></el-input-number>
+          <el-input-number v-model="form.quantity" :min=1 @change="calculateTotalMoney()"></el-input-number>
         </el-form-item>
         <el-form-item label="住客姓名" prop="username">
           <el-input v-model="form.username" placeholder="请输入住客姓名" />
@@ -98,9 +98,6 @@
         </el-form-item>
         <el-form-item label="单价" prop="price">
           <el-input v-model="form.price" type="number" disabled />
-        </el-form-item>
-        <el-form-item label="总价" prop="totalPrice">
-          <el-input :value="form.price * form.quantity" />
         </el-form-item>
         <el-form-item label="入住日期" prop="checkinDate">
           <el-date-picker clearable
@@ -115,8 +112,12 @@
                           v-model="form.checkoutDate"
                           type="date"
                           value-format="yyyy-MM-dd"
+                          @blur="calculateTotalMoney()"
                           placeholder="请选择离店时间">
           </el-date-picker>
+        </el-form-item>
+        <el-form-item label="总价" prop="totalPrice">
+          <el-input :value="totalMoney" />
         </el-form-item>
 
       </el-form>
@@ -141,6 +142,11 @@ export default {
   },
   data() {
     return {
+      data: {
+        "2023/5/31":3,
+        "2023/6/1":1
+      },
+      totalMoney: "",
       // 版本号
       version: "1.1.0",
       // 遮罩层
@@ -238,6 +244,16 @@ export default {
         this.loading = false;
       });
     },
+    calculateTotalMoney() {
+      if (!(this.form.checkinDate == null || this.form.checkoutDate == null)) {
+        const checkinDate = new Date(this.form.checkinDate);
+        const checkoutDate = new Date(this.form.checkoutDate);
+        const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
+        const stayDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        this.totalMoney = this.form.price * stayDays * this.form.quantity
+      }
+    },
+
     /** 新增按钮操作 */
     handleAdd(room) {
       this.reset();
@@ -292,6 +308,23 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
+      const start = new Date(this.form.checkinDate);
+      const end = new Date(this.form.checkoutDate);
+      let currentDate = start;
+      let map = new Map(Object.entries(this.data))
+      console.log(map)
+      let dateList = [];
+      while (currentDate <= end) {
+        let dateStr = currentDate.toLocaleDateString()
+        if (map.get(dateStr) < this.form.quantity) {
+          dateList.push(dateStr)
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+      if (dateList.length > 0) {
+        this.$message.error(dateList + "没有房间了")
+        return
+      }
       this.$refs["form"].validate(valid => {
         if(valid) {
           this.form.totalPrice = this.form.price * this.form.quantity
