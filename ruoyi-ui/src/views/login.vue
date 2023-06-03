@@ -37,15 +37,15 @@
           <img :src="codeUrl" @click="getCode" class="login-code-img"/>
         </div>
       </el-form-item>
-      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
-      <el-text v-model="loginForm.register" style="margin:0px 0px 25px 0px;">还没有账号？马上注册</el-text>
+      <el-checkbox v-model="loginForm.rememberMe" style="margin-right: 10px; font-size: 14px;">记住密码</el-checkbox>
+      <el-text v-model="loginForm.register" style="font-size: 14px;">还没有账号？马上注册</el-text>
       <el-button
         :loading="loading"
         size="small"
         type="primary"
         style="width:15%;"
         @click.native.prevent="handleRegister">
-        <span v-if="!loading">注 册</span>
+        <span v-if="!loading" >注 册</span>
       </el-button>
       <el-form-item style="width:100%;">
         <el-button
@@ -84,7 +84,7 @@ export default {
       loginForm: {
         username: "admin",
         password: "admin123",
-        rememberMe: false,
+        rememberMe: true,
         register: false,
         code: "",
         uuid: ""
