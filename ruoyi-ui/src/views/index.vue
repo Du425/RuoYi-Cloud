@@ -37,7 +37,7 @@
     <el-row>
       <el-col :span="11" v-for="(room, index) in roomList" :key="room.id" :offset="index % 2 === 1 ? 2 : 0" v-if="index % 2 === 0">
         <el-card :body-style="{padding: '0px'}">
-          <el-image :src="room.imgUrl" fit="contain"  ></el-image>
+          <el-image :src="room.imgUrl" fit="contain" class="room-image"></el-image>
           <div>
             <el-tag>价格：{{ room.price }}</el-tag>
             <h3>房型：{{ room.code }}</h3>
@@ -56,7 +56,7 @@
       </el-col>
       <el-col :span="11" v-for="(room, index) in roomList" :key="room.id" :offset="index % 2 === 0 ? 2 : 0" v-if="index % 2 === 1">
         <el-card :body-style="{padding: '0px'}">
-          <el-image :src="room.imgUrl" fit="contain"  ></el-image>
+          <el-image :src="room.imgUrl" fit="contain" class="room-image"></el-image>
           <div>
             <el-tag>价格：{{ room.price }}</el-tag>
             <h3>房型：{{ room.code }}</h3>
@@ -101,6 +101,7 @@
         </el-form-item>
         <el-form-item label="入住日期" prop="checkinDate">
           <el-date-picker clearable
+                          :picker-options="pickerOptions"
                           v-model="form.checkinDate"
                           type="date"
                           value-format="yyyy-MM-dd"
@@ -109,6 +110,7 @@
         </el-form-item>
         <el-form-item label="离店日期" prop="checkoutDate">
           <el-date-picker clearable
+                          :picker-options="pickerOptions"
                           v-model="form.checkoutDate"
                           type="date"
                           value-format="yyyy-MM-dd"
@@ -392,6 +394,11 @@ export default {
     height: 200px;
     object-fit: cover;
   }
+
+  //.room-image {
+  //  //width: 700px; /* 设置固定宽度 */
+  //  height: 200px; /* 设置固定高度 */
+  //}
 
   .room-info {
     padding: 10px;
